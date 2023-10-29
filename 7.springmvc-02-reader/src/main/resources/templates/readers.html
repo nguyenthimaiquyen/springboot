@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reader management</title>
+
+    <!--    link font awesome-->
+    <link th:href="@{../vendor/font-awesome.min.css}" rel="stylesheet">
+    <!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>-->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+    <!--    <link rel="stylesheet" href="/vendor/font-awesome.min.css">-->
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row mt-3">
+        <div class="col text-center">
+            <h4>Đây là trang quản lý bạn đọc</h4>
+        </div>
+    </div>
+
+    <div class="row my-5">
+        <div class="col">
+            <a href="/create-reader" class="btn btn-success">Create reader</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr class="bg-primary">
+                    <th>No.</th>
+                    <th>Fullname</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                    <th>Reader type</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="reader : ${readers}">
+                    <td th:text="${reader.id}"></td>
+                    <td th:text="${reader.fullname}"></td>
+                    <td th:text="${reader.address}"></td>
+                    <td th:text="${reader.phone}"></td>
+                    <td>
+                            <span class="badge badge-success mr-1" th:each="type : ${reader.readerTypes}">
+                                <span th:text="${type.value}"></span>
+                            </span>
+                    </td>
+                    <td>
+                        <a class="btn btn-danger" th:href="${'/delete-reader/' + reader.id}"
+                           th:data-confirm-delete="|Are you sure want to delete this reader?|"
+                           onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false"
+                        >
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
