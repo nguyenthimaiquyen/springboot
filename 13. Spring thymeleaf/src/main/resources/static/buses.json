@@ -1,0 +1,10 @@
+[{ "id": 1, "distance": 14, "busStop": 28 },
+  { "id": 2, "distance": 14, "busStop": 28 },
+  { "id": 3, "distance": 13, "busStop": 26 },
+  { "id": 4, "distance": 22, "busStop": 40 },
+  { "id": 5, "distance": 15, "busStop": 30 },
+  { "id": 6, "distance": 16, "busStop": 30 },
+  { "id": 7, "distance": 17, "busStop": 34 },
+  { "id": 8, "distance": 15, "busStop": 28 },
+  { "id": 9, "distance": 19, "busStop": 36 },
+  { "id": 10, "distance": 20, "busStop": 38 }]
