@@ -1,0 +1,61 @@
+[{
+  "id": 1,
+  "fullname": "Melicent Dowey",
+  "address": "872 Sycamore Court",
+  "phone": "243-703-1777",
+  "customerType": "INDIVIDUAL"
+}, {
+  "id": 2,
+  "fullname": "Agna Janks",
+  "address": "05 Larry Hill",
+  "phone": "124-808-3185",
+  "customerType": "INDIVIDUAL"
+}, {
+  "id": 3,
+  "fullname": "Mozes Bengall",
+  "address": "90 Fairview Hill",
+  "phone": "443-906-7661",
+  "customerType": "INDIVIDUAL"
+}, {
+  "id": 4,
+  "fullname": "Antoinette Stockow",
+  "address": "30972 Prentice Hill",
+  "phone": "657-805-0840",
+  "customerType": "INDIVIDUAL"
+}, {
+  "id": 5,
+  "fullname": "Alicea Mullarkey",
+  "address": "860 Moose Terrace",
+  "phone": "194-252-3061",
+  "customerType": "INDIVIDUAL"
+}, {
+  "id": 6,
+  "fullname": "Siffre Cramond",
+  "address": "9 Forest Dale Park",
+  "phone": "270-107-3416",
+  "customerType": "INDIVIDUAL"
+}, {
+  "id": 7,
+  "fullname": "Dyna Kausche",
+  "address": "62044 Emmet Way",
+  "phone": "767-809-9541",
+  "customerType": "INDIVIDUAL"
+}, {
+  "id": 8,
+  "fullname": "Trefor Briant",
+  "address": "50 Nelson Center",
+  "phone": "570-186-6171",
+  "customerType": "INDIVIDUAL"
+}, {
+  "id": 9,
+  "fullname": "Millicent Parlott",
+  "address": "8 Jackson Parkway",
+  "phone": "792-516-7135",
+  "customerType": "INDIVIDUAL"
+}, {
+  "id": 10,
+  "fullname": "Anderea Paskins",
+  "address": "535 Ohio Point",
+  "phone": "973-454-1525",
+  "customerType": "INDIVIDUAL"
+}]
