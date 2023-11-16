@@ -34,11 +34,15 @@
                     <label for="name">Name:</label>
                     <input type="text" class="form-control" placeholder="Enter name" id="name"
                            th:field="*{name}">
+                    <div class="alert alert-danger bg-white border-0 pl-0 text-danger pt-1"
+                         th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
                 </div>
                 <div class="form-group">
                     <label for="price">Price:</label>
                     <input type="number" class="form-control" placeholder="Enter price"
                            th:field="*{price}" id="price">
+                    <div class="alert alert-danger bg-white border-0 pl-0 text-danger pt-1"
+                         th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
                 </div>
                 <div class="form-group">
                     <label for="unit">Unit:</label>
@@ -47,14 +51,18 @@
                                 th:value="${unit}" th:text="${unit.value}"></option>
                         </option>
                     </select>
+                    <div class="alert alert-danger bg-white border-0 pl-0 text-danger pt-1"
+                         th:if="${#fields.hasErrors('unit')}" th:errors="*{unit}"></div>
                 </div>
                 <div class="form-group">
                     <label for="period">Period:</label>
                     <input type="number" class="form-control" placeholder="Enter period"
                            id="period" th:field="*{period}">
+                    <div class="alert alert-danger bg-white border-0 pl-0 text-danger pt-1"
+                         th:if="${#fields.hasErrors('period')}" th:errors="*{period}"></div>
                 </div>
                 <button type="submit" class="btn btn-primary">Save</button>
-                <a class="btn btn-secondary" href="/services">Back</a>
+                <a class="btn btn-secondary" href="/service">Back</a>
             </form>
         </div>
     </div>

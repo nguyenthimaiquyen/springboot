@@ -14,7 +14,7 @@ public class Assignment {
     private Bus bus;
     private Driver driver;
     private int driving;
-    private int day;
+    private int assignmentTime;
 
 
 }

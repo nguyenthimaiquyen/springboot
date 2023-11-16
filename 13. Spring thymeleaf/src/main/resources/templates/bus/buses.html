@@ -52,10 +52,10 @@
                     <td th:text="${bus.distance}"></td>
                     <td th:text="${bus.busStop}"></td>
                     <td>
-                        <a class="btn btn-primary btn-sm" th:href="@{/buses/update(id=${bus.id})}">
+                        <a class="btn btn-primary btn-sm" th:href="${'/buses/update/' + bus.id}">
                             <i class="far fa-edit" aria-hidden="true"></i>
                         </a>
-                        <a class="btn btn-danger btn-sm" th:href="@{/buses/delete(id=${bus.id})}"
+                        <a class="btn btn-danger btn-sm" th:href="${'/buses/delete/' + bus.id}"
                            onclick="return confirm('Are you sure want to delete this driver?')">
                             <i class="fa fa-trash" aria-hidden="true"></i>
                         </a>

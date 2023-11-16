@@ -30,34 +30,40 @@
     <div class="row">
         <div class="col">
             <form method="POST" th:action="@{/assignment/create}" th:object="${assignment}">
-                <input type="hidden" th:field="*{id}">
                 <div class="form-group">
-                    <label for="bus">Bus ID:</label>
-                    <select th:field="*{bus}" id="bus" class="form-control">
-                        <option th:each="id : ${T(com.quyen.springthymeleaf.entity.Bus).getId()}"
-                                th:value="${id}" th:text="${id}"></option>
-                        </option>
+                    <label for="driverId">Driver's Name:</label>
+                    <select class="form-group" th:field="*{driverId}" id="driverId">
+                        <option th:each="driver : ${driverList}"
+                                th:value="${driver.id}" th:text="${driver.name}"></option>
                     </select>
+                    <div class="alert alert-danger bg-white border-0 pl-0 text-danger pt-1"
+                         th:if="${#fields.hasErrors('driverId')}" th:errors="*{driverId}"></div>
                 </div>
                 <div class="form-group">
-                    <label for="driver">Driver's Name:</label>
-                    <select th:field="*{driver}" id="driver" class="form-control">
-                        <option th:each="name : ${T(com.quyen.springthymeleaf.entity.Driver).getName()}"
-                                th:value="${name}" th:text="${name}"></option>
-                        </option>
+                    <label for="busId">Service:</label>
+                    <select class="form-group" th:field="*{busId}" id="busId">
+                        <option th:each="bus : ${busList}"
+                                th:value="${bus.id}" th:text="${bus.id}"></option>
                     </select>
+                    <div class="alert alert-danger bg-white border-0 pl-0 text-danger pt-1"
+                         th:if="${#fields.hasErrors('busId')}" th:errors="*{busId}"></div>
                 </div>
                 <div class="form-group">
-                    <label for="driving">Driving Number:</label>
-                    <input type="number" class="form-control" placeholder="Enter driving number"
+                    <label for="driving">Driving:</label>
+                    <input type="text" class="form-control" placeholder="Enter driving"
                            id="driving" th:field="*{driving}">
+                    <div class="alert alert-danger bg-white border-0 pl-0 text-danger pt-1"
+                         th:if="${#fields.hasErrors('driving')}" th:errors="*{driving}"></div>
                 </div>
                 <div class="form-group">
-                    <label for="day">Driving Day:</label>
-                    <input type="number" class="form-control" placeholder="Enter driving day"
-                           th:field="*{day}" id="day">
+                    <label for="assignmentTime">Assignment Time:</label>
+                    <input type="text" class="form-control" placeholder="Enter assignment time"
+                           id="assignmentTime" th:field="*{assignmentTime}">
+                    <div class="alert alert-danger bg-white border-0 pl-0 text-danger pt-1"
+                         th:if="${#fields.hasErrors('assignmentTime')}" th:errors="*{assignmentTime}"></div>
                 </div>
                 <button type="submit" class="btn btn-primary">Save</button>
+                <a class="btn btn-secondary" href="/assignment">Back</a>
             </form>
         </div>
     </div>

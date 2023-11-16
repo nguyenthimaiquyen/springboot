@@ -1,60 +1,81 @@
 package com.quyen.springthymeleaf.repository;
 
 import com.quyen.springthymeleaf.entity.Bus;
-import com.quyen.springthymeleaf.utils.BusReadFile;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.quyen.springthymeleaf.exception.BusNotFoundException;
+import com.quyen.springthymeleaf.model.request.BusUpdateRequest;
+import com.quyen.springthymeleaf.utils.FileUtil;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
+@RequiredArgsConstructor
+@Slf4j
 public class BusRepository {
+    private static final String BUS_DATA_FILE_NAME = "buses";
+    private final FileUtil<Bus> fileUtil;
 
-    private List<Bus> busList;
-    private BusReadFile BusFileReader;
-    private static int AUTO_ID = 11;
 
-    @Autowired
-    public BusRepository(@Qualifier("BusJsonReadFile") BusReadFile fileReader) {
-        this.BusFileReader = fileReader;
-        this.busList = this.BusFileReader.readFile("classpath:static/buses.json");
+    public List<Bus> getAll() {
+        return fileUtil.readDataFromFile(BUS_DATA_FILE_NAME, Bus[].class);
     }
 
-    public List<Bus> getAllBus() {
-        return busList;
-    }
-
-    public void updateBus(Bus bus) {
+    public List<Bus> update(BusUpdateRequest bus) throws BusNotFoundException {
+        List<Bus> busList = getAll();
+        if (CollectionUtils.isEmpty(busList)) {
+            throw new BusNotFoundException("Buses not found");
+        }
+        Optional<Bus> busNeedUpdate = busList.stream().filter(d -> d.getId() == bus.getId()).findFirst();
+        if (busNeedUpdate.isEmpty()) {
+            throw new BusNotFoundException("Buses not found");
+        }
         for (int i = 0; i < busList.size(); i++) {
             if (busList.get(i).getId() == bus.getId()) {
                 busList.get(i).setDistance(bus.getDistance());
                 busList.get(i).setBusStop(bus.getBusStop());
-                break;
+                fileUtil.writeDataToFile(BUS_DATA_FILE_NAME, busList);
+                return busList;
             }
         }
+        return null;
     }
 
-    public Bus getBusById(Integer id) {
+    public Bus getById(int id) throws BusNotFoundException {
+        List<Bus> busList = getAll();
+        if (CollectionUtils.isEmpty(busList)) {
+            throw new BusNotFoundException("Drivers not found");
+        }
         return busList.stream().filter(d -> d.getId() == id).findFirst().get();
     }
 
-    public void deleteBusById(Integer id) {
+    public List<Bus> deleteById(int id) throws BusNotFoundException {
+        List<Bus> busList = getAll();
+        if (CollectionUtils.isEmpty(busList)) {
+            throw new BusNotFoundException("Drivers not found");
+        }
         for (int i = 0; i < busList.size(); i++) {
             if (busList.get(i).getId() == id) {
                 busList.remove(i);
-                break;
+                fileUtil.writeDataToFile(BUS_DATA_FILE_NAME, busList);
+                return busList;
             }
         }
+        return null;
     }
 
-    public void createBus(Bus bus) {
-        Bus newBus = Bus.builder()
-                .id(AUTO_ID++)
-                .distance(bus.getDistance())
-                .busStop(bus.getBusStop())
-                .build();
-        busList.add(newBus);
+    public List<Bus> create(Bus bus) {
+        List<Bus> busList = getAll();
+        if (CollectionUtils.isEmpty(busList)) {
+            busList = new ArrayList<>();
+        }
+        busList.add(bus);
+        fileUtil.writeDataToFile(BUS_DATA_FILE_NAME, busList);
+        return busList;
     }
 
 

@@ -44,8 +44,7 @@
                         <th>Driver's name</th>
                         <th>Bus ID</th>
                         <th>Driving</th>
-                        <th>Day</th>
-                        <th>Actions</th>
+                        <th>Assignment Time (month)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -54,16 +53,7 @@
                         <td th:text="${assign.driver.name}"></td>
                         <td th:text="${assign.bus.id}"></td>
                         <td th:text="${assign.driving}"></td>
-                        <td th:text="${assign.day}"></td>
-                        <td>
-                            <a class="btn btn-primary btn-sm" th:href="@{/assignment/update(id=${assign.id})}">
-                                <i class="far fa-edit" aria-hidden="true"></i>
-                            </a>
-                            <a class="btn btn-danger btn-sm" th:href="@{/assignment/delete(id=${assign.id})}"
-                               onclick="return confirm('Are you sure want to delete this assignment?')">
-                                <i class="fa fa-trash" aria-hidden="true"></i>
-                            </a>
-                        </td>
+                        <td th:text="${assign.assignmentTime}"></td>
                     </tr>
                 </tbody>
             </table>

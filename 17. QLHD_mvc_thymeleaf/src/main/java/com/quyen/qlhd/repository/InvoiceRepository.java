@@ -14,13 +14,12 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class InvoiceRepository {
-    private static final String CUSTOMER_DATA_FILE_NAME = "invoices";
+    private static final String INVOICE_DATA_FILE_NAME = "invoice";
     public static int AUTO_ID = 1;
     private final FileUtil<Invoice> fileUtil;
-    private List<Invoice> invoices = new ArrayList<>();
 
     public List<Invoice> getAll() {
-        return invoices;
+        return fileUtil.readDataFromFile(INVOICE_DATA_FILE_NAME, Invoice[].class);
     }
 
     public List<Invoice> createInvoice(Invoice invoice) {
@@ -29,7 +28,7 @@ public class InvoiceRepository {
             invoices = new ArrayList<>();
         }
         invoices.add(invoice);
-        fileUtil.writeDataToFile(CUSTOMER_DATA_FILE_NAME, invoices);
+        fileUtil.writeDataToFile(INVOICE_DATA_FILE_NAME, invoices);
         return invoices;
     }
 

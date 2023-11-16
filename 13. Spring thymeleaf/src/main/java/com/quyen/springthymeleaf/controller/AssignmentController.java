@@ -1,65 +1,64 @@
 package com.quyen.springthymeleaf.controller;
 
 import com.quyen.springthymeleaf.entity.Assignment;
+import com.quyen.springthymeleaf.entity.Bus;
+import com.quyen.springthymeleaf.entity.Driver;
+import com.quyen.springthymeleaf.exception.BusNotFoundException;
+import com.quyen.springthymeleaf.exception.DriverNotFoundException;
+import com.quyen.springthymeleaf.model.request.AssignmentCreationRequest;
 import com.quyen.springthymeleaf.service.AssignmentService;
+import com.quyen.springthymeleaf.service.BusService;
+import com.quyen.springthymeleaf.service.DriverService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
 @AllArgsConstructor
 public class AssignmentController {
     private final AssignmentService assignmentService;
+    private final DriverService driverService;
+    private final BusService busService;
 
     @GetMapping("/assignment")
     public String home(Model model) {
-        List<Assignment> assignmentList = assignmentService.getAllAssignment();
+        List<Assignment> assignmentList = assignmentService.getAll();
         model.addAttribute("assignmentList", assignmentList);
         return "assignment/assignments";
     }
 
     @GetMapping("/assignment/create")
-    public String create(Model model) {
-        Assignment newAssignment = new Assignment();
-        model.addAttribute("assignment", newAssignment);
+    public String initAssignment(Model model) {
+        List<Driver> driverList = driverService.getAll();
+        model.addAttribute("driverList", driverList);
+
+        List<Bus> busList = busService.getAll();
+        model.addAttribute("busList", busList);
+
+        model.addAttribute("assignment", new AssignmentCreationRequest());
         return "/assignment/assignment-creation";
     }
 
     @PostMapping("/assignment/create")
-    public String create(@ModelAttribute("assignment") Assignment assignment, Model model) {
-        assignmentService.create(assignment);
-        List<Assignment>  assignmentList = assignmentService.getAllAssignment();
+    public String create(@ModelAttribute("assignment") @Valid AssignmentCreationRequest assignment, Model model,
+                         Errors errors) throws DriverNotFoundException, BusNotFoundException {
+        if (errors !=  null && errors.getErrorCount() > 0) {
+            return "assignment/assignment-creation";
+        }
+        List<Assignment>  assignmentList = assignmentService.create(assignment);
         model.addAttribute("assignmentList", assignmentList);
+        //nếu e bỏ model đi thì ko redirect về trang assignment/assignments được, lỗi 404
+        //nếu e để model thì ko validate các thuộc tính được
+        //thầy chữa chỗ này nhé
         return "assignment/assignments";
     }
 
-    @GetMapping("/assignment/update")
-    public String update(@RequestParam("id") Integer id, Model model) {
-        Assignment assignment = assignmentService.getAssignmentById(id);
-        model.addAttribute("assignment", assignment);
-        return "/assignment/assignment-update";
-    }
-
-    @PostMapping("/assignment/update")
-    public String save(@ModelAttribute("assignment") Assignment assignment, Model model) {
-        assignmentService.updateAssignment(assignment);
-        List<Assignment>  assignmentList = assignmentService.getAllAssignment();
-        model.addAttribute("assignmentList", assignmentList);
-        return "assignment/assignments";
-    }
-
-    @GetMapping("/assignment/delete")
-    public String delete(@RequestParam("id") Integer id, Model model) {
-        assignmentService.deleteAssignmentById(id);
-        List<Assignment>  assignmentList = assignmentService.getAllAssignment();
-        model.addAttribute("assignmentList", assignmentList);
-        return "assignment/assignments";
-    }
 
 }

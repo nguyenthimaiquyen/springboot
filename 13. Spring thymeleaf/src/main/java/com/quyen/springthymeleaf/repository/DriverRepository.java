@@ -1,64 +1,83 @@
 package com.quyen.springthymeleaf.repository;
 
 import com.quyen.springthymeleaf.entity.Driver;
-import com.quyen.springthymeleaf.utils.BusReadFile;
-import com.quyen.springthymeleaf.utils.DriverReadFile;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.quyen.springthymeleaf.exception.DriverNotFoundException;
+import com.quyen.springthymeleaf.model.request.DriverUpdateRequest;
+import com.quyen.springthymeleaf.utils.FileUtil;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
+@RequiredArgsConstructor
+@Slf4j
 public class DriverRepository {
 
-    private List<Driver> driverList;
-    private DriverReadFile driverFileReader;
-    private static int AUTO_ID = 11;
+    private static final String Driver_DATA_FILE_NAME = "drivers";
+    private final FileUtil<Driver> fileUtil;
 
-    @Autowired
-    public DriverRepository(@Qualifier("DriverJsonReadFile") DriverReadFile driverFileReader) {
-        this.driverFileReader = driverFileReader;
-        this.driverList = this.driverFileReader.readFile("classpath:static/drivers.json");
+
+    public List<Driver> getAll() {
+        return fileUtil.readDataFromFile(Driver_DATA_FILE_NAME, Driver[].class);
     }
 
-    public List<Driver> getAllDriver() {
-        return driverList;
-    }
-
-    public void updateDriver(Driver driver) {
+    public List<Driver> update(DriverUpdateRequest driver) throws DriverNotFoundException {
+        List<Driver> driverList = getAll();
+        if (CollectionUtils.isEmpty(driverList)) {
+            throw new DriverNotFoundException("Drivers not found");
+        }
+        Optional<Driver> driverNeedUpdate = driverList.stream().filter(d -> d.getId() == driver.getId()).findFirst();
+        if (driverNeedUpdate.isEmpty()) {
+            throw new DriverNotFoundException("Drivers not found");
+        }
         for (int i = 0; i < driverList.size(); i++) {
             if (driverList.get(i).getId() == driver.getId()) {
                 driverList.get(i).setName(driver.getName());
                 driverList.get(i).setAddress(driver.getAddress());
                 driverList.get(i).setPhone(driver.getPhone());
                 driverList.get(i).setLevel(driver.getLevel());
-                break;
+                fileUtil.writeDataToFile(Driver_DATA_FILE_NAME, driverList);
+                return driverList;
             }
         }
+        return null;
     }
 
-    public Driver getDriverById(Integer id) {
+    public Driver getById(int id) throws DriverNotFoundException {
+        List<Driver> driverList = getAll();
+        if (CollectionUtils.isEmpty(driverList)) {
+            throw new DriverNotFoundException("Drivers not found");
+        }
         return driverList.stream().filter(d -> d.getId() == id).findFirst().get();
     }
 
-    public void deleteDriverById(Integer id) {
+    public List<Driver> deleteById(int id) throws DriverNotFoundException {
+        List<Driver> driverList = getAll();
+        if (CollectionUtils.isEmpty(driverList)) {
+            throw new DriverNotFoundException("Drivers not found");
+        }
         for (int i = 0; i < driverList.size(); i++) {
             if (driverList.get(i).getId() == id) {
                 driverList.remove(i);
-                break;
+                fileUtil.writeDataToFile(Driver_DATA_FILE_NAME, driverList);
+                return driverList;
             }
         }
+        return null;
     }
 
-    public void createDriver(Driver driver) {
-        Driver newDriver = Driver.builder()
-                .id(AUTO_ID++)
-                .name(driver.getName())
-                .address(driver.getAddress())
-                .phone(driver.getPhone())
-                .level(driver.getLevel())
-                .build();
-        driverList.add(newDriver);
+    public List<Driver> create(Driver driver) {
+        List<Driver> driverList = getAll();
+        if (CollectionUtils.isEmpty(driverList)) {
+            driverList = new ArrayList<>();
+        }
+        driverList.add(driver);
+        fileUtil.writeDataToFile(Driver_DATA_FILE_NAME, driverList);
+        return driverList;
     }
 }

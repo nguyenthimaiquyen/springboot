@@ -1,6 +1,7 @@
 package com.quyen.qlhd.service;
 
 
+import com.quyen.qlhd.exception.ServiceNotFoundException;
 import com.quyen.qlhd.model.request.ServiceCreationRequest;
 import com.quyen.qlhd.model.response.ServiceDetailResponse;
 import com.quyen.qlhd.repository.ServiceRepository;
@@ -18,7 +19,7 @@ public class ServiceService {
         return serviceRepository.getAll();
     }
 
-    public List<com.quyen.qlhd.entity.Service> deleteService(int id) {
+    public List<com.quyen.qlhd.entity.Service> deleteService(int id) throws ServiceNotFoundException {
         return serviceRepository.delete(id);
     }
 
@@ -33,7 +34,7 @@ public class ServiceService {
         return serviceRepository.createService(service);
     }
 
-    public ServiceDetailResponse findById(int id) {
+    public ServiceDetailResponse findById(int id) throws ServiceNotFoundException {
         com.quyen.qlhd.entity.Service service = serviceRepository.findById(id);
         return ServiceDetailResponse.builder()
                 .id(service.getId())
@@ -44,7 +45,7 @@ public class ServiceService {
                 .build();
     }
 
-    public List<com.quyen.qlhd.entity.Service> updateService(ServiceDetailResponse service) {
+    public List<com.quyen.qlhd.entity.Service> updateService(ServiceDetailResponse service) throws ServiceNotFoundException {
         return serviceRepository.updateService(service);
     }
 }

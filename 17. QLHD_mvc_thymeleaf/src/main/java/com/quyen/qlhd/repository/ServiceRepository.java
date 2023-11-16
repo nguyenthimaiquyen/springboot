@@ -1,6 +1,7 @@
 package com.quyen.qlhd.repository;
 
 import com.quyen.qlhd.entity.Service;
+import com.quyen.qlhd.exception.ServiceNotFoundException;
 import com.quyen.qlhd.model.response.ServiceDetailResponse;
 import com.quyen.qlhd.util.FileUtil;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +24,10 @@ public class ServiceRepository {
         return fileUtil.readDataFromFile(SERVICE_DATA_FILE_NAME, Service[].class);
     }
 
-    public List<Service> delete(int id) {
+    public List<Service> delete(int id) throws ServiceNotFoundException {
         List<Service> services = getAll();
         if (CollectionUtils.isEmpty(services)) {
-            throw new RuntimeException("Services not found");
+            throw new ServiceNotFoundException("Services not found");
         }
         for (int i = 0; i < services.size(); i++) {
             if (services.get(i).getId() == id) {
@@ -49,18 +50,18 @@ public class ServiceRepository {
     }
 
 
-    public Service findById(int id) {
+    public Service findById(int id) throws ServiceNotFoundException {
         List<Service> services = getAll();
         if (CollectionUtils.isEmpty(services)) {
-            throw new RuntimeException("Customers not found");
+            throw new ServiceNotFoundException("Customers not found");
         }
         return services.stream().filter(b -> b.getId() == id).findFirst().get();
     }
 
-    public List<Service> updateService(ServiceDetailResponse service) {
+    public List<Service> updateService(ServiceDetailResponse service) throws ServiceNotFoundException {
         List<Service> services = getAll();
         if (CollectionUtils.isEmpty(services)) {
-            throw new RuntimeException("Services not found");
+            throw new ServiceNotFoundException("Services not found");
         }
         for (int i = 0; i < services.size(); i++) {
             if (services.get(i).getId() == service.getId()) {

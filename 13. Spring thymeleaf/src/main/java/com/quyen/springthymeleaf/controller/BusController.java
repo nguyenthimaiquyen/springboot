@@ -1,15 +1,18 @@
 package com.quyen.springthymeleaf.controller;
 
 import com.quyen.springthymeleaf.entity.Bus;
+import com.quyen.springthymeleaf.exception.BusNotFoundException;
+import com.quyen.springthymeleaf.model.request.BusCreationRequest;
+import com.quyen.springthymeleaf.model.request.BusUpdateRequest;
+import com.quyen.springthymeleaf.model.response.BusDetailResponse;
 import com.quyen.springthymeleaf.service.BusService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -18,46 +21,48 @@ public class BusController {
     private final BusService busService;
 
     @GetMapping("/buses")
-    public String home(Model model) {
-        List<Bus> busList = busService.getAllBus();
+    public String bus(Model model) {
+        List<Bus> busList = busService.getAll();
         model.addAttribute("busList", busList);
         return "bus/buses";
     }
 
     @GetMapping("/buses/create")
     public String create(Model model) {
-        Bus newBus = new Bus();
-        model.addAttribute("bus", newBus);
-        return "/bus/bus-creation";
+        model.addAttribute("bus", new BusCreationRequest());
+        return "bus/bus-creation";
     }
 
     @PostMapping("/buses/create")
-    public String create(@ModelAttribute("bus") Bus bus, Model model) {
-        busService.create(bus);
-        List<Bus> busList = busService.getAllBus();
+    public String create(@ModelAttribute("bus") @Valid BusCreationRequest bus, Errors errors, Model model) {
+        if (null != errors && errors.getErrorCount() > 0) {
+            return "/bus/bus-creation";
+        }
+        List<Bus> busList = busService.create(bus);
         model.addAttribute("busList", busList);
         return "bus/buses";
     }
 
-    @GetMapping("/buses/update")
-    public String update(@RequestParam("id") Integer id, Model model) {
-        Bus bus = busService.getBusById(id);
+    @GetMapping("/buses/update/{id}")
+    public String update(@PathVariable("id") int id, Model model) throws BusNotFoundException {
+        BusDetailResponse bus = busService.getById(id);
         model.addAttribute("bus", bus);
         return "/bus/bus-update";
     }
 
     @PostMapping("/buses/update")
-    public String save(@ModelAttribute("driver") Bus bus, Model model) {
-        busService.updateBus(bus);
-        List<Bus> busList = busService.getAllBus();
+    public String update(@ModelAttribute("driver") @Valid BusUpdateRequest bus, Errors errors, Model model) throws BusNotFoundException {
+        if (null != errors && errors.getErrorCount() > 0) {
+            return "book-update";
+        }
+        List<Bus> busList = busService.update(bus);
         model.addAttribute("busList", busList);
         return "bus/buses";
     }
 
-    @GetMapping("/buses/delete")
-    public String delete(@RequestParam("id") Integer id, Model model) {
-        busService.deleteBusById(id);
-        List<Bus> busList = busService.getAllBus();
+    @GetMapping("/buses/delete/{id}")
+    public String delete(@PathVariable("id") int id, Model model) throws BusNotFoundException {
+        List<Bus> busList = busService.deleteById(id);
         model.addAttribute("busList", busList);
         return "bus/buses";
     }

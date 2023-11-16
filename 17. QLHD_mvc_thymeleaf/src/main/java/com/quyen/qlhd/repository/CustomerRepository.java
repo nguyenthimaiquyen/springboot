@@ -1,6 +1,7 @@
 package com.quyen.qlhd.repository;
 
 import com.quyen.qlhd.entity.Customer;
+import com.quyen.qlhd.exception.CustomerNotFoundException;
 import com.quyen.qlhd.model.response.CustomerDetailResponse;
 import com.quyen.qlhd.util.FileUtil;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +24,10 @@ public class CustomerRepository {
         return fileUtil.readDataFromFile(CUSTOMER_DATA_FILE_NAME, Customer[].class);
     }
 
-    public List<Customer> delete(int id) {
+    public List<Customer> delete(int id) throws CustomerNotFoundException {
         List<Customer> customers = getAll();
         if (CollectionUtils.isEmpty(customers)) {
-            throw new RuntimeException("Customers not found");
+            throw new CustomerNotFoundException("Customers not found");
         }
         for (int i = 0; i < customers.size(); i++) {
             if (customers.get(i).getId() == id) {
@@ -49,18 +50,18 @@ public class CustomerRepository {
     }
 
 
-    public Customer findById(int id) {
+    public Customer findById(int id) throws CustomerNotFoundException {
         List<Customer> customers = getAll();
         if (CollectionUtils.isEmpty(customers)) {
-            throw new RuntimeException("Customers not found");
+            throw new CustomerNotFoundException("Customers not found");
         }
         return customers.stream().filter(b -> b.getId() == id).findFirst().get();
     }
 
-    public List<Customer> updateCustomer(CustomerDetailResponse customer) {
+    public List<Customer> updateCustomer(CustomerDetailResponse customer) throws CustomerNotFoundException {
         List<Customer> customers = getAll();
         if (CollectionUtils.isEmpty(customers)) {
-            throw new RuntimeException("Customers not found");
+            throw new CustomerNotFoundException("Customers not found");
         }
         for (int i = 0; i < customers.size(); i++) {
             if (customers.get(i).getId() == customer.getId()) {
