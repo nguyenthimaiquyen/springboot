@@ -1,6 +1,5 @@
 package com.quyen.springthymeleaf.model.response;
 
-import com.quyen.springthymeleaf.statics.Level;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

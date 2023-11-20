@@ -10,6 +10,8 @@ import com.quyen.qlhd.service.CustomerService;
 import com.quyen.qlhd.service.InvoiceService;
 import com.quyen.qlhd.service.ServiceService;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -17,14 +19,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class InvoiceController {
-    private final InvoiceService invoiceService;
-    private final CustomerService customerService;
-    private final ServiceService serviceService;
+    public final InvoiceService invoiceService;
+    public final CustomerService customerService;
+    public final ServiceService serviceService;
 
 
     @GetMapping("/invoice")
@@ -47,14 +50,14 @@ public class InvoiceController {
     }
 
     @PostMapping("/create-invoice")
-    public String createInvoice(@ModelAttribute("InvoiceCreationRequest") InvoiceCreationRequest request,
-                                Errors errors, Model model) throws ServiceNotFoundException, CustomerNotFoundException {
+    public String createInvoice(@ModelAttribute("InvoiceCreationRequest") @Valid InvoiceCreationRequest request,
+                                Errors errors) throws ServiceNotFoundException, CustomerNotFoundException {
         if (errors !=  null && errors.getErrorCount() > 0) {
             return "invoice/invoice-creation";
         }
         List<Invoice> invoices = invoiceService.createInvoice(request);
-        model.addAttribute("invoices", invoices);
-        return "invoice/invoices";
+//        model.addAttribute("invoices", invoices);
+        return "redirect:/invoice";
     }
 
 

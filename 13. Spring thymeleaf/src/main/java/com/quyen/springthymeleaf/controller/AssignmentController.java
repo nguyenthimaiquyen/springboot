@@ -47,17 +47,13 @@ public class AssignmentController {
     }
 
     @PostMapping("/assignment/create")
-    public String create(@ModelAttribute("assignment") @Valid AssignmentCreationRequest assignment, Model model,
+    public String create(@ModelAttribute("assignment") @Valid AssignmentCreationRequest assignment,
                          Errors errors) throws DriverNotFoundException, BusNotFoundException {
         if (errors !=  null && errors.getErrorCount() > 0) {
-            return "assignment/assignment-creation";
+            return "/assignment/assignment-creation";
         }
         List<Assignment>  assignmentList = assignmentService.create(assignment);
-        model.addAttribute("assignmentList", assignmentList);
-        //nếu e bỏ model đi thì ko redirect về trang assignment/assignments được, lỗi 404
-        //nếu e để model thì ko validate các thuộc tính được
-        //thầy chữa chỗ này nhé
-        return "assignment/assignments";
+        return "redirect:/assignment";
     }
 
 

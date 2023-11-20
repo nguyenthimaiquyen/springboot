@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -38,17 +39,16 @@ public class InvoiceService {
             throw new RuntimeException("Không tìm thấy dịch vụ!");
         }
 
-        LocalDate parse = LocalDate.parse(request.getRegisterDate().toString());
-        LocalDate parse1 = LocalDate.parse(request.getExtensionDate().toString());
-        LocalDate registerDate = request.getRegisterDate();
-        LocalDate extensionDate = request.getExtensionDate();
+
+        LocalDateTime registerDate = request.getRegisterDate();
+        LocalDateTime extensionDate = request.getExtensionDate();
 
         Invoice invoice = Invoice.builder()
                 .id(invoiceRepository.AUTO_ID++)
                 .customer(customer)
                 .service(service)
-                .registerDate(LocalDate.parse(request.getRegisterDate().toString()))
-                .extensionDate(LocalDate.parse(request.getExtensionDate().toString()))
+                .registerDate(LocalDateTime.parse(request.getRegisterDate().toString()))
+                .extensionDate(LocalDateTime.parse(request.getExtensionDate().toString()))
                 .build();
         return invoiceRepository.createInvoice(invoice);
     }

@@ -2,6 +2,7 @@ package com.quyen.qlhd.repository;
 
 import com.quyen.qlhd.entity.Service;
 import com.quyen.qlhd.exception.ServiceNotFoundException;
+import com.quyen.qlhd.model.request.ServiceUpdateRequest;
 import com.quyen.qlhd.model.response.ServiceDetailResponse;
 import com.quyen.qlhd.util.FileUtil;
 import lombok.RequiredArgsConstructor;
@@ -58,7 +59,7 @@ public class ServiceRepository {
         return services.stream().filter(b -> b.getId() == id).findFirst().get();
     }
 
-    public List<Service> updateService(ServiceDetailResponse service) throws ServiceNotFoundException {
+    public List<Service> updateService(ServiceUpdateRequest service) throws ServiceNotFoundException {
         List<Service> services = getAll();
         if (CollectionUtils.isEmpty(services)) {
             throw new ServiceNotFoundException("Services not found");

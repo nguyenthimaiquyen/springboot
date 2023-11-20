@@ -34,13 +34,13 @@ public class BusController {
     }
 
     @PostMapping("/buses/create")
-    public String create(@ModelAttribute("bus") @Valid BusCreationRequest bus, Errors errors, Model model) {
+    public String create(@ModelAttribute("bus") @Valid BusCreationRequest bus, Errors errors) {
         if (null != errors && errors.getErrorCount() > 0) {
             return "/bus/bus-creation";
         }
         List<Bus> busList = busService.create(bus);
-        model.addAttribute("busList", busList);
-        return "bus/buses";
+//        model.addAttribute("busList", busList);
+        return "redirect:/buses";
     }
 
     @GetMapping("/buses/update/{id}")
@@ -51,13 +51,13 @@ public class BusController {
     }
 
     @PostMapping("/buses/update")
-    public String update(@ModelAttribute("driver") @Valid BusUpdateRequest bus, Errors errors, Model model) throws BusNotFoundException {
+    public String update(@ModelAttribute("bus") @Valid BusUpdateRequest bus, Errors errors) throws BusNotFoundException {
         if (null != errors && errors.getErrorCount() > 0) {
-            return "book-update";
+            return "/bus/bus-update";
         }
         List<Bus> busList = busService.update(bus);
-        model.addAttribute("busList", busList);
-        return "bus/buses";
+//        model.addAttribute("busList", busList);
+        return "redirect:/buses";
     }
 
     @GetMapping("/buses/delete/{id}")

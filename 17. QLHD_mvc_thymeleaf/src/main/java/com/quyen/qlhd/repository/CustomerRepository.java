@@ -2,6 +2,7 @@ package com.quyen.qlhd.repository;
 
 import com.quyen.qlhd.entity.Customer;
 import com.quyen.qlhd.exception.CustomerNotFoundException;
+import com.quyen.qlhd.model.request.CustomerUpdateRequest;
 import com.quyen.qlhd.model.response.CustomerDetailResponse;
 import com.quyen.qlhd.util.FileUtil;
 import lombok.RequiredArgsConstructor;
@@ -58,7 +59,7 @@ public class CustomerRepository {
         return customers.stream().filter(b -> b.getId() == id).findFirst().get();
     }
 
-    public List<Customer> updateCustomer(CustomerDetailResponse customer) throws CustomerNotFoundException {
+    public List<Customer> updateCustomer(CustomerUpdateRequest customer) throws CustomerNotFoundException {
         List<Customer> customers = getAll();
         if (CollectionUtils.isEmpty(customers)) {
             throw new CustomerNotFoundException("Customers not found");

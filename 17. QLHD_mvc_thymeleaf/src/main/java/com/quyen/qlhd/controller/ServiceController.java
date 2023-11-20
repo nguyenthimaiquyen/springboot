@@ -3,6 +3,7 @@ package com.quyen.qlhd.controller;
 import com.quyen.qlhd.entity.Service;
 import com.quyen.qlhd.exception.ServiceNotFoundException;
 import com.quyen.qlhd.model.request.ServiceCreationRequest;
+import com.quyen.qlhd.model.request.ServiceUpdateRequest;
 import com.quyen.qlhd.model.response.ServiceDetailResponse;
 import com.quyen.qlhd.service.ServiceService;
 import lombok.AllArgsConstructor;
@@ -44,13 +45,13 @@ public class ServiceController {
 
     @PostMapping("/create-service")
     public String createService(@ModelAttribute("ServiceCreationRequest") @Valid ServiceCreationRequest service,
-                                Model model, Errors errors) {
+                                Errors errors) {
         if (errors !=  null && errors.getErrorCount() > 0) {
             return "service/service-creation";
         }
         List<Service> services = serviceService.createService(service);
-        model.addAttribute("services", services);
-        return "service/services";
+//        model.addAttribute("services", services);
+        return "redirect:/service";
     }
 
     @GetMapping("/update-service/{service-id}")
@@ -61,14 +62,14 @@ public class ServiceController {
     }
 
     @PostMapping("/update-service")
-    public String updateService(@ModelAttribute("ServiceUpdateRequest") @Valid ServiceDetailResponse service,
-                                Model model, Errors errors) throws ServiceNotFoundException {
+    public String updateService(@ModelAttribute("ServiceUpdateRequest") @Valid ServiceUpdateRequest service,
+                                Errors errors) throws ServiceNotFoundException {
         if (errors !=  null && errors.getErrorCount() > 0) {
-            return "service/service-creation";
+            return "service/service-update";
         }
         List<Service> services = serviceService.updateService(service);
-        model.addAttribute("services", services);
-        return "service/services";
+//        model.addAttribute("services", services);
+        return "redirect:/service";
     }
 
 }

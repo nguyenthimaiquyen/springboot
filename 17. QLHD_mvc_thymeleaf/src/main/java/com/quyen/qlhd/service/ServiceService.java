@@ -3,6 +3,7 @@ package com.quyen.qlhd.service;
 
 import com.quyen.qlhd.exception.ServiceNotFoundException;
 import com.quyen.qlhd.model.request.ServiceCreationRequest;
+import com.quyen.qlhd.model.request.ServiceUpdateRequest;
 import com.quyen.qlhd.model.response.ServiceDetailResponse;
 import com.quyen.qlhd.repository.ServiceRepository;
 import lombok.AllArgsConstructor;
@@ -45,7 +46,7 @@ public class ServiceService {
                 .build();
     }
 
-    public List<com.quyen.qlhd.entity.Service> updateService(ServiceDetailResponse service) throws ServiceNotFoundException {
+    public List<com.quyen.qlhd.entity.Service> updateService(ServiceUpdateRequest service) throws ServiceNotFoundException {
         return serviceRepository.updateService(service);
     }
 }

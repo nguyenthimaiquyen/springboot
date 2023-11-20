@@ -4,16 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class InvoiceCreationRequest {
+
     @NotNull(message = "Tên khách hàng bắt buộc chọn")
     @Min(value = 1, message = "ID không âm")
     private Integer customerId;
@@ -23,8 +26,10 @@ public class InvoiceCreationRequest {
     private Integer serviceId;
 
     @NotNull(message = "Ngày đăng ký bắt buộc nhập")
-    private LocalDate registerDate;
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    private LocalDateTime registerDate;
 
     @NotNull(message = "Ngày mở rộng bắt buộc nhập")
-    private LocalDate extensionDate;
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    private LocalDateTime extensionDate;
 }

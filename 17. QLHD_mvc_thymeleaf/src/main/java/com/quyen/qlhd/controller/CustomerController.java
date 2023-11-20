@@ -3,6 +3,7 @@ package com.quyen.qlhd.controller;
 import com.quyen.qlhd.entity.Customer;
 import com.quyen.qlhd.exception.CustomerNotFoundException;
 import com.quyen.qlhd.model.request.CustomerCreationRequest;
+import com.quyen.qlhd.model.request.CustomerUpdateRequest;
 import com.quyen.qlhd.model.response.CustomerDetailResponse;
 import com.quyen.qlhd.service.CustomerService;
 import lombok.AllArgsConstructor;
@@ -44,13 +45,13 @@ public class CustomerController {
 
     @PostMapping("/create-customer")
     public String createCustomer(@ModelAttribute("CustomerCreationRequest") @Valid CustomerCreationRequest customer,
-                        Model model, Errors errors) {
+                         Errors errors) {
         if (errors !=  null && errors.getErrorCount() > 0) {
             return "customer/customer-creation";
         }
         List<Customer> customers = customerService.createCustomer(customer);
-        model.addAttribute("customers", customers);
-        return "/customer/customers";
+//        model.addAttribute("customers", customers);
+        return "redirect:/";
     }
 
     @GetMapping("/update-customer/{customer-id}")
@@ -61,14 +62,14 @@ public class CustomerController {
     }
 
     @PostMapping("/update-customer")
-    public String updateCustomer(@ModelAttribute("CustomerUpdateRequest") @Valid CustomerDetailResponse customer,
-                                 Model model, Errors errors) throws CustomerNotFoundException {
+    public String updateCustomer(@ModelAttribute("CustomerUpdateRequest") @Valid CustomerUpdateRequest customer,
+                                 Errors errors) throws CustomerNotFoundException {
         if (errors !=  null && errors.getErrorCount() > 0) {
             return "customer/customer-update";
         }
         List<Customer> customers = customerService.updateCustomer(customer);
-        model.addAttribute("customers", customers);
-        return "customer/customers";
+//        model.addAttribute("customers", customers);
+        return "redirect:/";
     }
 
 }

@@ -3,6 +3,7 @@ package com.quyen.qlhd.service;
 import com.quyen.qlhd.entity.Customer;
 import com.quyen.qlhd.exception.CustomerNotFoundException;
 import com.quyen.qlhd.model.request.CustomerCreationRequest;
+import com.quyen.qlhd.model.request.CustomerUpdateRequest;
 import com.quyen.qlhd.model.response.CustomerDetailResponse;
 import com.quyen.qlhd.repository.CustomerRepository;
 import lombok.AllArgsConstructor;
@@ -45,7 +46,7 @@ public class CustomerService {
                 .build();
     }
 
-    public List<Customer> updateCustomer(CustomerDetailResponse customer) throws CustomerNotFoundException {
+    public List<Customer> updateCustomer(CustomerUpdateRequest customer) throws CustomerNotFoundException {
         return customerRepository.updateCustomer(customer);
     }
 }
