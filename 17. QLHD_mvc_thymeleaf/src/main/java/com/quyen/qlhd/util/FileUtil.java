@@ -32,7 +32,7 @@ public class FileUtil<T> {
         // java NIO
         File folder;
         try {
-            folder = new ClassPathResource("data" + File.separator + filePath + ".json").getFile();
+            folder = new File(filePath);
             if (folder.isFile()) {
                 fileDataStr = new String(Files.readAllBytes(Paths.get(folder.getAbsolutePath())));
             }

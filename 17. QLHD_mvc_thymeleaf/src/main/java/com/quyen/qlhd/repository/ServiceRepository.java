@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class ServiceRepository {
-    private static final String SERVICE_DATA_FILE_NAME = "services";
+    private static final String SERVICE_DATA_FILE_NAME = "D:\\5. Hoc Trung Tam ve CNTT\\3. Java fullStack\\5. Spring boot\\4.springboot\\data\\services.json";
     public static int AUTO_ID = 11;
     private final FileUtil<Service> fileUtil;
 

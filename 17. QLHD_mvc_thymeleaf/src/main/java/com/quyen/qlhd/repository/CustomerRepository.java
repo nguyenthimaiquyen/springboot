@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class CustomerRepository {
-    private static final String CUSTOMER_DATA_FILE_NAME = "customers";
+    private static final String CUSTOMER_DATA_FILE_NAME = "D:\\5. Hoc Trung Tam ve CNTT\\3. Java fullStack\\5. Spring boot\\4.springboot\\data\\customers.json";
     public static int AUTO_ID = 11;
     private final FileUtil<Customer> fileUtil;
 

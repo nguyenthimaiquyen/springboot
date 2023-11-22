@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class InvoiceRepository {
-    private static final String INVOICE_DATA_FILE_NAME = "invoice";
+    private static final String INVOICE_DATA_FILE_NAME = "D:\\5. Hoc Trung Tam ve CNTT\\3. Java fullStack\\5. Spring boot\\4.springboot\\data\\invoice.json";
     public static int AUTO_ID = 1;
     private final FileUtil<Invoice> fileUtil;
 
