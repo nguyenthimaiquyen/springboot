@@ -40,15 +40,15 @@ public class InvoiceService {
         }
 
 
-        LocalDateTime registerDate = request.getRegisterDate();
-        LocalDateTime extensionDate = request.getExtensionDate();
+        LocalDate registerDate = request.getRegisterDate();
+        LocalDate extensionDate = request.getExtensionDate();
 
         Invoice invoice = Invoice.builder()
                 .id(invoiceRepository.AUTO_ID++)
                 .customer(customer)
                 .service(service)
-                .registerDate(LocalDateTime.parse(request.getRegisterDate().toString()))
-                .extensionDate(LocalDateTime.parse(request.getExtensionDate().toString()))
+                .registerDate(request.getRegisterDate())
+                .extensionDate(request.getExtensionDate())
                 .build();
         return invoiceRepository.createInvoice(invoice);
     }

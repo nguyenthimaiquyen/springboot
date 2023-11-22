@@ -9,8 +9,6 @@ import com.quyen.qlhd.model.request.InvoiceCreationRequest;
 import com.quyen.qlhd.service.CustomerService;
 import com.quyen.qlhd.service.InvoiceService;
 import com.quyen.qlhd.service.ServiceService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

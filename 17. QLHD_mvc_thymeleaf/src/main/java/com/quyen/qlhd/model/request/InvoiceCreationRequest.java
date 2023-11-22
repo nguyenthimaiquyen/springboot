@@ -9,7 +9,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Builder
 @Data
@@ -25,11 +24,12 @@ public class InvoiceCreationRequest {
     @Min(value = 1, message = "ID không âm")
     private Integer serviceId;
 
+
     @NotNull(message = "Ngày đăng ký bắt buộc nhập")
     @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private LocalDateTime registerDate;
+    private LocalDate registerDate;
 
     @NotNull(message = "Ngày mở rộng bắt buộc nhập")
     @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private LocalDateTime extensionDate;
+    private LocalDate extensionDate;
 }

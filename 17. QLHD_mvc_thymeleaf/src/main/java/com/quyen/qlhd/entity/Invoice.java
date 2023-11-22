@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,10 +18,14 @@ public class Invoice {
     private int id;
     private Customer customer;
     private Service service;
-    private LocalDateTime registerDate;
-    private LocalDateTime extensionDate;
 
-    public Invoice(Customer customer, Service service, LocalDateTime registerDate, LocalDateTime extensionDate) {
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    private LocalDate registerDate;
+
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    private LocalDate extensionDate;
+
+    public Invoice(Customer customer, Service service, LocalDate registerDate, LocalDate extensionDate) {
         this.customer = customer;
         this.service = service;
         this.registerDate = registerDate;
