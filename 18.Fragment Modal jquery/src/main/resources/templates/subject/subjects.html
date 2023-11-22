@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: html_head(pageTitle = 'Student Management - Home')"></head>
+<body>
+<div th:replace="fragments/menu :: menu"></div>
+<div class="container-fluid my-5">
+    <div class="row flex-row flex-sm-nowrap py-3">
+        <div class="col text-center">
+            <h2>Đây là trang quản lý môn học</h2>
+        </div>
+    </div>
+
+    <div class="row flex-row flex-sm-nowrap py-3">
+        <div class="col">
+            <a href="/create-subject" class="btn btn-success">Create subject</a>
+        </div>
+    </div>
+
+    <div class="row flex-row flex-sm-nowrap py-3">
+        <div class="col">
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>SubjectName</th>
+                    <th>Credit</th>
+                    <th>Subject Type</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="subject : ${subjects}">
+                    <td th:text="${subject.id}"></td>
+                    <td th:text="${subject.subjectName}"></td>
+                    <td th:text="${subject.credit}"></td>
+                    <td>
+                        <span class="badge badge-success mr-1" th:each="type: ${subject.subjectType}">
+                            <span th:text="${type.value}"></span>
+                        </span>
+                    </td>
+                    <td>
+                        <a class="btn btn-primary btn-sm"
+                           th:href="${'/update-subject/' + subject.id}">
+                            <i class="far fa-edit" aria-hidden="true"></i>
+                        </a>
+                        <a class="btn btn-danger btn-sm"
+                           th:href="${'/delete-subject/' + subject.id}"
+                           th:data-confirm-delete="|Are you sure want to delete this subject?|"
+                           onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

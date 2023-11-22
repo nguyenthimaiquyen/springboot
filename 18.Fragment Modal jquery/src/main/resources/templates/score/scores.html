@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: html_head(pageTitle = 'Score Management - Home')"></head>
+<body>
+<div th:replace="fragments/menu :: menu"></div>
+<div class="container-fluid my-5">
+    <div class="row mb-2">
+        <div class="col text-center">
+            <h2>Đây là trang quản lý điểm của sinh viên</h2>
+        </div>
+    </div>
+
+    <div class="row my-5">
+        <div class="col">
+            <a href="/create-score" class="btn btn-success">Create score</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Student Name</th>
+                    <th>Subject Name</th>
+                    <th>Test Date</th>
+                    <th>Score</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="score : ${scores}">
+                    <td th:text="${score.id}"></td>
+                    <td th:text="${score.student.id}"></td>
+                    <td th:text="${score.subject.id}"></td>
+                    <td th:text="${score.testDate}"></td>
+                    <td th:text="${score.score}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

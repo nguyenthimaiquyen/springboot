@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head :: html_head(pageTitle = 'Subject Management - Creation')"></head>
+<body>
+<div th:replace="fragments/menu :: menu"></div>
+
+<div class="container my-5">
+    <div class="row text-center mb-4">
+        <div class="col">
+            <h2>Đây là trang tạo mới môn học</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <form method="POST" th:action="@{/create-subject}" th:object="${SubjectCreationRequest}">
+                <div class="form-group">
+                    <label for="subjectName">Subject Name:</label>
+                    <input type="text" class="form-control" placeholder="Enter subject name" id="subjectName"
+                    th:field="*{subjectName}">
+                    <div class="alert alert-danger bg-white border-0 pl-0 text-danger pt-1"
+                         th:if="${#fields.hasErrors('subjectName')}" th:errors="*{subjectName}"></div>
+                </div>
+                <div class="form-group">
+                    <label for="credit">Credit:</label>
+                    <input type="number" class="form-control" placeholder="Enter credit"
+                           th:field="*{credit}" id="credit">
+                    <div class="alert alert-danger bg-white border-0 pl-0 text-danger pt-1"
+                         th:if="${#fields.hasErrors('credit')}" th:errors="*{credit}"></div>
+                </div>
+                <div class="form-group">
+                    <label for="subjectType">Subject Type:</label>
+                    <select th:field="*{subjectType}" id="subjectType" class="form-control">
+                        <option th:each="subjectType : ${T(com.example.fragmentmodaljquery.statics.SubjectType).values()}"
+                                th:value="${subjectType}" th:text="${subjectType.value}"></option>
+                        </option>
+                        <div class="alert alert-danger bg-white border-0 pl-0 text-danger pt-1"
+                             th:if="${#fields.hasErrors('subjectType')}" th:errors="*{subjectType}"></div>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a class="btn btn-secondary" href="/subjects">Back</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
