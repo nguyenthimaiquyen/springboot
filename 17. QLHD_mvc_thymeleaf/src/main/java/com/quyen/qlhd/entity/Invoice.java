@@ -19,10 +19,10 @@ public class Invoice {
     private Customer customer;
     private Service service;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate registerDate;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate extensionDate;
 
     public Invoice(Customer customer, Service service, LocalDate registerDate, LocalDate extensionDate) {

@@ -26,10 +26,10 @@ public class InvoiceCreationRequest {
 
 
     @NotNull(message = "Ngày đăng ký bắt buộc nhập")
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate registerDate;
 
     @NotNull(message = "Ngày mở rộng bắt buộc nhập")
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate extensionDate;
 }

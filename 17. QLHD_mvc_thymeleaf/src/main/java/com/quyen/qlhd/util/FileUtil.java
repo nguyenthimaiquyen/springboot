@@ -49,7 +49,7 @@ public class FileUtil<T> {
         File folder = null;
         Writer writer = null;
         try {
-            folder = new ClassPathResource("data" + File.separator + filePath + ".json").getFile();
+            folder = new File(filePath);
             writer = new FileWriter(folder);
             gson.toJson(data, writer);
         } catch (IOException e) {
