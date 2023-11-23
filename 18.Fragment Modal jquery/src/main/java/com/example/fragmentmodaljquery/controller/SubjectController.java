@@ -47,7 +47,7 @@ public class SubjectController {
     public String create(@ModelAttribute("SubjectCreationRequest") @Valid SubjectCreationRequest subject,
                                 Errors errors) {
         if (errors !=  null && errors.getErrorCount() > 0) {
-            return "subject/service-creation";
+            return "subject/subject-creation";
         }
         List<Subject> subjects = subjectService.create(subject);
         return "redirect:/subjects";

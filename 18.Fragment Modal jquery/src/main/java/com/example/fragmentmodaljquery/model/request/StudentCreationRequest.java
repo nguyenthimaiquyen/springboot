@@ -14,7 +14,7 @@ import org.hibernate.validator.constraints.Length;
 public class StudentCreationRequest {
     @NotBlank(message = "Tên sinh viên bắt buộc nhập")
     @Length(max = 100, message = "Tên sinh viên không được vượt quá 100 kí tự")
-    private String fullname;
+    private String name;
 
     @NotBlank(message = "Địa chỉ bắt buộc nhập")
     @Length(max = 200, message = "Địa chỉ không được vượt quá 200 kí tự")

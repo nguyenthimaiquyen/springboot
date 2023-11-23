@@ -37,10 +37,10 @@ public class ScoreController {
     @GetMapping("/create-score")
     public String init(Model model) {
         List<Student> students = studentService.getAll();
-        model.addAttribute("customers", students);
+        model.addAttribute("students", students);
 
         List<Subject> subjects = subjectService.getAll();
-        model.addAttribute("services", subjects);
+        model.addAttribute("subjects", subjects);
 
         model.addAttribute("ScoreCreationRequest", new ScoreCreationRequest());
         return "score/score-creation";
@@ -53,7 +53,6 @@ public class ScoreController {
             return "score/score-creation";
         }
         List<Score> scores = scoreService.create(request);
-//        model.addAttribute("invoices", invoices);
         return "redirect:/scores";
     }
 

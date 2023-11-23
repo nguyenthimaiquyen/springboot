@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Student {
     private int id;
-    private String fullname;
+    private String name;
     private String address;
     private String phone;
     private String className;

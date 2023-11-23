@@ -16,8 +16,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class StudentRepository {
-    private static final String STUDENT_DATA_FILE_NAME = "D:\\5. Hoc Trung Tam ve CNTT\\3. Java fullStack\\5. Spring boot\\4.springboot\\data\\18\\students.json";
-    public static int AUTO_ID = 1;
+    private static final String STUDENT_DATA_FILE_NAME = "data/students.json";
+    public static int AUTO_ID = 9;
     private final FileUtil<Student> fileUtil;
 
     public List<Student> getAll() {
@@ -39,14 +39,13 @@ public class StudentRepository {
         return null;
     }
 
-    public List<Student> create(Student student) {
+    public void save(Student student) {
         List<Student> students = getAll();
         if (CollectionUtils.isEmpty(students)) {
             students = new ArrayList<>();
         }
         students.add(student);
         fileUtil.writeDataToFile(STUDENT_DATA_FILE_NAME, students);
-        return students;
     }
 
 
@@ -65,7 +64,7 @@ public class StudentRepository {
         }
         for (int i = 0; i < students.size(); i++) {
             if (students.get(i).getId() == student.getId()) {
-                students.get(i).setFullname(student.getFullname());
+                students.get(i).setName(student.getName());
                 students.get(i).setAddress(student.getAddress());
                 students.get(i).setPhone(student.getPhone());
                 students.get(i).setClassName(student.getClassName());

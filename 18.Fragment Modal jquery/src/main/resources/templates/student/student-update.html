@@ -15,11 +15,11 @@
                 <form method="POST" th:action="@{/update-student}" th:object="${StudentUpdateRequest}">
                     <input type="hidden" id="id" th:field="*{id}">
                     <div class="form-group">
-                        <label for="fullname">FullName:</label>
-                        <input type="text" class="form-control" placeholder="Enter fullname" id="fullname"
-                               th:field="*{fullname}">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" placeholder="Enter name" id="name"
+                               th:field="*{name}">
                         <div class="alert alert-danger bg-white border-0 pl-0 text-danger pt-1"
-                             th:if="${#fields.hasErrors('fullname')}" th:errors="*{fullname}"></div>
+                             th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
                     </div>
                     <div class="form-group">
                         <label for="address">Address:</label>

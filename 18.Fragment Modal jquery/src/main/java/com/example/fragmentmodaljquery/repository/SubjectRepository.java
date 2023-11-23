@@ -1,10 +1,7 @@
 package com.example.fragmentmodaljquery.repository;
 
-import com.example.fragmentmodaljquery.entity.Student;
 import com.example.fragmentmodaljquery.entity.Subject;
-import com.example.fragmentmodaljquery.exception.StudentNotFoundException;
 import com.example.fragmentmodaljquery.exception.SubjectNotFoundException;
-import com.example.fragmentmodaljquery.model.request.StudentUpdateRequest;
 import com.example.fragmentmodaljquery.model.request.SubjectUpdateRequest;
 import com.example.fragmentmodaljquery.util.FileUtil;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class SubjectRepository {
-    private static final String SUBJECT_DATA_FILE_NAME = "D:\\5. Hoc Trung Tam ve CNTT\\3. Java fullStack\\5. Spring boot\\4.springboot\\data\\18\\subjects.json";
+    private static final String SUBJECT_DATA_FILE_NAME = "data/subjects.json";
     public static int AUTO_ID = 1;
     private final FileUtil<Subject> fileUtil;
 

@@ -31,8 +31,8 @@
                 <tbody>
                 <tr th:each="score : ${scores}">
                     <td th:text="${score.id}"></td>
-                    <td th:text="${score.student.id}"></td>
-                    <td th:text="${score.subject.id}"></td>
+                    <td th:text="${score.student.name}"></td>
+                    <td th:text="${score.subject.subjectName}"></td>
                     <td th:text="${score.testDate}"></td>
                     <td th:text="${score.score}"></td>
                 </tr>

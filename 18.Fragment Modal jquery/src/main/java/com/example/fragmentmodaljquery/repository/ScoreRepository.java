@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class ScoreRepository {
-    private static final String SCORE_DATA_FILE_NAME = "D:\\5. Hoc Trung Tam ve CNTT\\3. Java fullStack\\5. Spring boot\\4.springboot\\data\\18\\scores.json";
+    private static final String SCORE_DATA_FILE_NAME = "data/scores.json";
     public static int AUTO_ID = 1;
     private final FileUtil<Score> fileUtil;
 

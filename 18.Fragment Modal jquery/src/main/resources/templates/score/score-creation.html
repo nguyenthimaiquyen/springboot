@@ -21,7 +21,7 @@
                     <label for="studentId">Student Name:</label>
                     <select class="form-group" th:field="*{studentId}" id="studentId">
                         <option th:each="student : ${students}"
-                        th:value="${student.id}" th:text="${student.fullname}"></option>
+                        th:value="${student.id}" th:text="${student.name}"></option>
                     </select>
                     <div class="alert alert-danger bg-white border-0 pl-0 text-danger pt-1"
                          th:if="${#fields.hasErrors('studentId')}" th:errors="*{studentId}"></div>

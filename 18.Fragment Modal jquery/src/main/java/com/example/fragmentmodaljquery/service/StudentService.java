@@ -24,22 +24,22 @@ public class StudentService {
         return studentRepository.delete(id);
     }
 
-    public List<Student> create(StudentCreationRequest studentCreationRequest) {
+    public void create(StudentCreationRequest studentCreationRequest) {
         Student student = Student.builder()
                 .id(studentRepository.AUTO_ID++)
-                .fullname(studentCreationRequest.getFullname())
+                .name(studentCreationRequest.getName())
                 .address(studentCreationRequest.getAddress())
                 .phone(studentCreationRequest.getPhone())
                 .className(studentCreationRequest.getClassName())
                 .build();
-        return studentRepository.create(student);
+        studentRepository.save(student);
     }
 
     public StudentDetailResponse findById(int id) throws StudentNotFoundException {
         Student student = studentRepository.findById(id);
         return StudentDetailResponse.builder()
                 .id(student.getId())
-                .fullname(student.getFullname())
+                .name(student.getName())
                 .address(student.getAddress())
                 .phone(student.getPhone())
                 .className(student.getClassName())
