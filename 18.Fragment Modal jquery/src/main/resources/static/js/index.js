@@ -24,7 +24,7 @@ $(document).ready(function () {
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 toastr.success("Bạn đã tạo thành công thông tin sinh viên!");
-                $('#student-creation-modal').modal('hide');
+                // $('#student-creation-modal').modal('hide');
                 setTimeout(() => {
                     location.reload();
                 }, 1000);

@@ -57,17 +57,17 @@ public class StudentRepository {
         return students.stream().filter(b -> b.getId() == id).findFirst().get();
     }
 
-    public List<Student> update(StudentUpdateRequest student) throws StudentNotFoundException {
+    public List<Student> update(StudentUpdateRequest request) throws StudentNotFoundException {
         List<Student> students = getAll();
         if (CollectionUtils.isEmpty(students)) {
             throw new StudentNotFoundException("Students not found");
         }
         for (int i = 0; i < students.size(); i++) {
-            if (students.get(i).getId() == student.getId()) {
-                students.get(i).setName(student.getName());
-                students.get(i).setAddress(student.getAddress());
-                students.get(i).setPhone(student.getPhone());
-                students.get(i).setClassName(student.getClassName());
+            if (students.get(i).getId() == request.getId()) {
+                students.get(i).setName(request.getName());
+                students.get(i).setAddress(request.getAddress());
+                students.get(i).setPhone(request.getPhone());
+                students.get(i).setClassName(request.getClassName());
                 fileUtil.writeDataToFile(STUDENT_DATA_FILE_NAME, students);
                 return students;
             }

@@ -46,7 +46,7 @@ public class StudentService {
                 .build();
     }
 
-    public List<Student> update(StudentUpdateRequest student) throws StudentNotFoundException {
-        return studentRepository.update(student);
+    public List<Student> update(StudentUpdateRequest request) throws StudentNotFoundException {
+        return studentRepository.update(request);
     }
 }
