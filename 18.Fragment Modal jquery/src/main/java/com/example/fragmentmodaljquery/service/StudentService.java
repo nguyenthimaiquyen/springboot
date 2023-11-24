@@ -10,18 +10,37 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class StudentService {
     private final StudentRepository studentRepository;
 
-    public List<Student> getAll() {
-        return studentRepository.getAll();
+    public List<StudentDetailResponse> getAll() {
+        List<Student> students = studentRepository.getAll();
+        return students.stream().map(
+                student -> StudentDetailResponse.builder()
+                        .id(student.getId())
+                        .name(student.getName())
+                        .address(student.getAddress())
+                        .phone(student.getPhone())
+                        .className(student.getClassName())
+                        .build()
+        ).collect(Collectors.toList());
     }
 
-    public List<Student> delete(int id) throws StudentNotFoundException {
-        return studentRepository.delete(id);
+    public List<StudentDetailResponse> delete(int id) throws StudentNotFoundException {
+        List<Student> students = studentRepository.delete(id);
+        return students.stream().map(
+                student -> StudentDetailResponse.builder()
+                        .id(student.getId())
+                        .name(student.getName())
+                        .address(student.getAddress())
+                        .phone(student.getPhone())
+                        .className(student.getClassName())
+                        .build()
+        ).collect(Collectors.toList());
     }
 
     public void create(StudentCreationRequest studentCreationRequest) {
@@ -46,7 +65,16 @@ public class StudentService {
                 .build();
     }
 
-    public List<Student> update(StudentUpdateRequest request) throws StudentNotFoundException {
-        return studentRepository.update(request);
+    public List<StudentDetailResponse> update(StudentUpdateRequest request) throws StudentNotFoundException {
+        List<Student> students = studentRepository.update(request);
+        return students.stream().map(
+                student -> StudentDetailResponse.builder()
+                        .id(student.getId())
+                        .name(student.getName())
+                        .address(student.getAddress())
+                        .phone(student.getPhone())
+                        .className(student.getClassName())
+                        .build()
+        ).collect(Collectors.toList());
     }
 }

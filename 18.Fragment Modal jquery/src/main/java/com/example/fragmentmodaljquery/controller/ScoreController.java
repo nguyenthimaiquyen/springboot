@@ -1,11 +1,12 @@
 package com.example.fragmentmodaljquery.controller;
 
 import com.example.fragmentmodaljquery.entity.Score;
-import com.example.fragmentmodaljquery.entity.Student;
-import com.example.fragmentmodaljquery.entity.Subject;
 import com.example.fragmentmodaljquery.exception.StudentNotFoundException;
 import com.example.fragmentmodaljquery.exception.SubjectNotFoundException;
 import com.example.fragmentmodaljquery.model.request.ScoreCreationRequest;
+import com.example.fragmentmodaljquery.model.response.ScoreDetailResponse;
+import com.example.fragmentmodaljquery.model.response.StudentDetailResponse;
+import com.example.fragmentmodaljquery.model.response.SubjectDetailResponse;
 import com.example.fragmentmodaljquery.service.ScoreService;
 import com.example.fragmentmodaljquery.service.StudentService;
 import com.example.fragmentmodaljquery.service.SubjectService;
@@ -29,17 +30,17 @@ public class ScoreController {
 
     @GetMapping("/scores")
     public String getAll(Model model) {
-        List<Score> scores = scoreService.getAll();
+        List<ScoreDetailResponse> scores = scoreService.getAll();
         model.addAttribute("scores", scores);
         return "score/scores";
     }
 
     @GetMapping("/create-score")
     public String init(Model model) {
-        List<Student> students = studentService.getAll();
+        List<StudentDetailResponse> students = studentService.getAll();
         model.addAttribute("students", students);
 
-        List<Subject> subjects = subjectService.getAll();
+        List<SubjectDetailResponse> subjects = subjectService.getAll();
         model.addAttribute("subjects", subjects);
 
         model.addAttribute("ScoreCreationRequest", new ScoreCreationRequest());
@@ -52,7 +53,7 @@ public class ScoreController {
         if (errors !=  null && errors.getErrorCount() > 0) {
             return "score/score-creation";
         }
-        List<Score> scores = scoreService.create(request);
+        List<ScoreDetailResponse> scores = scoreService.create(request);
         return "redirect:/scores";
     }
 

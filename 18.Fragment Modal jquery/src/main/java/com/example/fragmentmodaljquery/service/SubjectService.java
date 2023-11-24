@@ -11,28 +11,54 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class SubjectService {
     private final SubjectRepository subjectRepository;
 
-    public List<Subject> getAll() {
-        return subjectRepository.getAll();
+    public List<SubjectDetailResponse> getAll() {
+        List<Subject> subjects = subjectRepository.getAll();
+        return subjects.stream().map(
+                subject -> SubjectDetailResponse.builder()
+                    .id(subject.getId())
+                    .subjectName(subject.getSubjectName())
+                    .credit(subject.getCredit())
+                    .subjectType(subject.getSubjectType())
+                    .build()
+        ).collect(Collectors.toList());
+
     }
 
-    public List<Subject> delete(int id) throws SubjectNotFoundException {
-        return subjectRepository.delete(id);
+    public List<SubjectDetailResponse> delete(int id) throws SubjectNotFoundException {
+        List<Subject> subjects = subjectRepository.delete(id);
+        return subjects.stream().map(
+                sub -> SubjectDetailResponse.builder()
+                        .id(sub.getId())
+                        .subjectName(sub.getSubjectName())
+                        .credit(sub.getCredit())
+                        .subjectType(sub.getSubjectType())
+                        .build()
+        ).collect(Collectors.toList());
     }
 
-    public List<Subject> create(SubjectCreationRequest subjectCreationRequest) {
+    public List<SubjectDetailResponse> create(SubjectCreationRequest subjectCreationRequest) {
         Subject subject = Subject.builder()
                 .id(subjectRepository.AUTO_ID++)
                 .subjectName(subjectCreationRequest.getSubjectName())
                 .credit(subjectCreationRequest.getCredit())
                 .subjectType(subjectCreationRequest.getSubjectType())
                 .build();
-        return subjectRepository.create(subject);
+        List<Subject> subjects = subjectRepository.create(subject);
+        return subjects.stream().map(
+                sub -> SubjectDetailResponse.builder()
+                        .id(sub.getId())
+                        .subjectName(sub.getSubjectName())
+                        .credit(sub.getCredit())
+                        .subjectType(sub.getSubjectType())
+                        .build()
+        ).collect(Collectors.toList());
     }
 
     public SubjectDetailResponse findById(int id) throws SubjectNotFoundException {
@@ -45,7 +71,15 @@ public class SubjectService {
                 .build();
     }
 
-    public List<Subject> update(SubjectUpdateRequest subject) throws SubjectNotFoundException {
-        return subjectRepository.update(subject);
+    public List<SubjectDetailResponse> update(SubjectUpdateRequest subject) throws SubjectNotFoundException {
+        List<Subject> subjects = subjectRepository.update(subject);
+        return subjects.stream().map(
+                sub -> SubjectDetailResponse.builder()
+                        .id(sub.getId())
+                        .subjectName(sub.getSubjectName())
+                        .credit(sub.getCredit())
+                        .subjectType(sub.getSubjectType())
+                        .build()
+        ).collect(Collectors.toList());
     }
 }

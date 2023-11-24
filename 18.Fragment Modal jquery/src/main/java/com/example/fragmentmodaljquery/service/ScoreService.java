@@ -6,6 +6,7 @@ import com.example.fragmentmodaljquery.entity.Subject;
 import com.example.fragmentmodaljquery.exception.StudentNotFoundException;
 import com.example.fragmentmodaljquery.exception.SubjectNotFoundException;
 import com.example.fragmentmodaljquery.model.request.ScoreCreationRequest;
+import com.example.fragmentmodaljquery.model.response.ScoreDetailResponse;
 import com.example.fragmentmodaljquery.repository.ScoreRepository;
 import com.example.fragmentmodaljquery.repository.StudentRepository;
 import com.example.fragmentmodaljquery.repository.SubjectRepository;
@@ -13,6 +14,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -21,11 +23,20 @@ public class ScoreService {
     private final SubjectRepository subjectRepository;
     private final ScoreRepository scoreRepository;
 
-    public List<Score> getAll() {
-        return scoreRepository.getAll();
+    public List<ScoreDetailResponse> getAll() {
+        List<Score> scores = scoreRepository.getAll();
+        return scores.stream().map(
+                score -> ScoreDetailResponse.builder()
+                    .id(score.getId())
+                    .student(score.getStudent())
+                    .subject(score.getSubject())
+                    .testDate(score.getTestDate())
+                    .score(score.getScore())
+                    .build()
+                ).collect(Collectors.toList());
     }
 
-    public List<Score> create(ScoreCreationRequest request) throws StudentNotFoundException, SubjectNotFoundException {
+    public List<ScoreDetailResponse> create(ScoreCreationRequest request) throws StudentNotFoundException, SubjectNotFoundException {
         Student student = studentRepository.findById(request.getStudentId());
         if (student == null) {
             throw new StudentNotFoundException("Không tìm thấy sinh viên!");
@@ -42,7 +53,16 @@ public class ScoreService {
                 .testDate(request.getTestDate())
                 .score(request.getScore())
                 .build();
-        return scoreRepository.create(score);
+        List<Score> scores = scoreRepository.create(score);
+        return scores.stream().map(
+                s -> ScoreDetailResponse.builder()
+                        .id(s.getId())
+                        .student(s.getStudent())
+                        .subject(s.getSubject())
+                        .testDate(s.getTestDate())
+                        .score(s.getScore())
+                        .build()
+        ).collect(Collectors.toList());
     }
 
 }

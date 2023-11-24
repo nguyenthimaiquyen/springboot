@@ -1,6 +1,5 @@
 package com.example.fragmentmodaljquery.controller;
 
-import com.example.fragmentmodaljquery.entity.Subject;
 import com.example.fragmentmodaljquery.exception.SubjectNotFoundException;
 import com.example.fragmentmodaljquery.model.request.SubjectCreationRequest;
 import com.example.fragmentmodaljquery.model.request.SubjectUpdateRequest;
@@ -25,14 +24,14 @@ public class SubjectController {
 
     @GetMapping("/subjects")
     public String home(Model model) {
-        List<Subject> subjects = subjectService.getAll();
+        List<SubjectDetailResponse> subjects = subjectService.getAll();
         model.addAttribute("subjects", subjects);
         return "subject/subjects";
     }
 
     @GetMapping("/delete-subject/{id}")
     public String delete(@PathVariable("id") int id, Model model) throws SubjectNotFoundException {
-        List<Subject> subjects = subjectService.delete(id);
+        List<SubjectDetailResponse> subjects = subjectService.delete(id);
         model.addAttribute("subjects", subjects);
         return "subject/subjects";
     }
@@ -49,7 +48,7 @@ public class SubjectController {
         if (errors !=  null && errors.getErrorCount() > 0) {
             return "subject/subject-creation";
         }
-        List<Subject> subjects = subjectService.create(subject);
+        List<SubjectDetailResponse> subjects = subjectService.create(subject);
         return "redirect:/subjects";
     }
 
@@ -66,7 +65,7 @@ public class SubjectController {
         if (errors !=  null && errors.getErrorCount() > 0) {
             return "subject/subject-update";
         }
-        List<Subject> subjects = subjectService.update(subject);
+        List<SubjectDetailResponse> subjects = subjectService.update(subject);
         return "redirect:/subjects";
     }
 

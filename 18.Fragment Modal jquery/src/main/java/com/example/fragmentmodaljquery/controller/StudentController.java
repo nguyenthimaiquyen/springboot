@@ -24,7 +24,7 @@ public class StudentController {
 
     @GetMapping("/")
     public String getAllStudent(Model model) {
-        List<Student> students = studentService.getAll();
+        List<StudentDetailResponse> students = studentService.getAll();
         model.addAttribute("students", students);
         return "index";
     }
@@ -48,13 +48,13 @@ public class StudentController {
         if (errors !=  null && errors.getErrorCount() > 0) {
             return "student/student-update";
         }
-        List<Student> students = studentService.update(request);
+        List<StudentDetailResponse> students = studentService.update(request);
         return "redirect:/";
     }
 
     @GetMapping("/delete-student/{id}")
     public String delete(@PathVariable("id") int id, Model model) throws StudentNotFoundException {
-        List<Student> students = studentService.delete(id);
+        List<StudentDetailResponse> students = studentService.delete(id);
         model.addAttribute("students", students);
         return "index";
     }
