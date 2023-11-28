@@ -2,6 +2,7 @@ package com.example.fragmentmodaljquery.config;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.gson.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +20,9 @@ public class BeanConfig {
         mapper.enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE);
         mapper.enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL);
         mapper.enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        JavaTimeModule module = new JavaTimeModule();
+//        module.addSerializer(LOCAL_DATETIME_SERIALIZER);
+        mapper.registerModule(module);
         return mapper;
     }
 
