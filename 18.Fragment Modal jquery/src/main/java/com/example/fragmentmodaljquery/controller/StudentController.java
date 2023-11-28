@@ -1,6 +1,5 @@
 package com.example.fragmentmodaljquery.controller;
 
-import com.example.fragmentmodaljquery.entity.Student;
 import com.example.fragmentmodaljquery.exception.StudentNotFoundException;
 import com.example.fragmentmodaljquery.model.request.StudentCreationRequest;
 import com.example.fragmentmodaljquery.model.request.StudentUpdateRequest;
@@ -23,10 +22,16 @@ public class StudentController {
     private final StudentService studentService;
 
     @GetMapping("/")
-    public String getAllStudent(Model model) {
+    public String getAllStudent(Model model) throws StudentNotFoundException {
         List<StudentDetailResponse> students = studentService.getAll();
         model.addAttribute("students", students);
         return "index";
+    }
+
+    @GetMapping("/students/{id}")
+    public ResponseEntity<?> getStudentDetails(@PathVariable Integer id) throws StudentNotFoundException {
+        StudentDetailResponse student = studentService.getStudentDetails(id);
+        return ResponseEntity.ok(student);
     }
 
     @PostMapping("/students")
@@ -35,28 +40,18 @@ public class StudentController {
         return ResponseEntity.ok(null);
     }
 
-    @GetMapping("/update-student/{student-id}")
-    public String forwardToSubjectUpdate(@PathVariable("student-id") int id, Model model) throws StudentNotFoundException {
-        StudentDetailResponse student = studentService.findById(id);
-        model.addAttribute("StudentUpdateRequest", student);
-        return "student/student-update";
+
+    @DeleteMapping("/students/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") Integer id) throws StudentNotFoundException {
+        studentService.delete(id);
+        return ResponseEntity.ok(null);
     }
 
-    @PostMapping("/update-student")
-    public String update(@ModelAttribute("StudentUpdateRequest") @Valid StudentUpdateRequest request,
-                         Errors errors) throws StudentNotFoundException {
-        if (errors !=  null && errors.getErrorCount() > 0) {
-            return "student/student-update";
-        }
-        List<StudentDetailResponse> students = studentService.update(request);
-        return "redirect:/";
-    }
-
-    @GetMapping("/delete-student/{id}")
-    public String delete(@PathVariable("id") int id, Model model) throws StudentNotFoundException {
-        List<StudentDetailResponse> students = studentService.delete(id);
-        model.addAttribute("students", students);
-        return "index";
+    @PutMapping("/students/{id}")
+    public ResponseEntity<?> update(@PathVariable Integer id,
+                                    @RequestBody StudentUpdateRequest request) throws StudentNotFoundException {
+        studentService.update(id, request);
+        return ResponseEntity.ok(null);
     }
 
 }

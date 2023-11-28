@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: html_head(pageTitle = 'Student Management - Home')"></head>
+<head th:replace="~{fragments/head :: html_head(pageTitle = 'Student Management - Home')}"></head>
 <body>
-<div th:replace="fragments/menu :: menu"></div>
+<div th:replace="~{fragments/menu :: menu}"></div>
 <div class="container-fluid my-5">
     <div class="row mb-2">
         <div class="col text-center">
@@ -12,7 +12,7 @@
 
     <div class="row my-5">
         <div class="col">
-            <a href="#" class="btn btn-success create-student-btn">Create student</a>
+            <button class="btn btn-success create-student-btn">Create student</button>
         </div>
     </div>
 
@@ -37,16 +37,12 @@
                     <td th:text="${student.phone}"></td>
                     <td th:text="${student.className}"></td>
                     <td>
-                        <a class="btn btn-primary btn-sm"
-                           th:href="${'/update-student/' + student.id}">
+                        <button class="btn btn-primary btn-sm update-student-modal-open" th:attr="student-id=${student.id}">
                             <i class="far fa-edit" aria-hidden="true"></i>
-                        </a>
-                        <a class="btn btn-danger btn-sm"
-                           th:href="${'/delete-student/' + student.id}"
-                           th:data-confirm-delete="|Are you sure want to delete this student?|"
-                           onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false">
+                        </button>
+                        <button class="btn btn-danger btn-sm delete-student-btn" th:attr="student-id=${student.id}">
                             <i class="fa fa-trash" aria-hidden="true"></i>
-                        </a>
+                        </button>
                     </td>
                 </tr>
                 </tbody>
@@ -54,7 +50,9 @@
         </div>
     </div>
 </div>
-<div th:replace="~{fragments/student-creation-modal :: student-creation-modal}"></div>
+<div th:replace="~{student/student-creation-modal :: student-creation-modal}"></div>
+<div th:replace="~{student/student-delete-modal :: student-delete-modal}"></div>
+<div th:replace="~{student/student-update-modal :: student-update-modal}"></div>
 
 
 

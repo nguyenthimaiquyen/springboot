@@ -36,16 +36,15 @@ public class ScoreService {
                 ).collect(Collectors.toList());
     }
 
-    public List<ScoreDetailResponse> create(ScoreCreationRequest request) throws StudentNotFoundException, SubjectNotFoundException {
+    public void create(ScoreCreationRequest request) throws StudentNotFoundException, SubjectNotFoundException {
         Student student = studentRepository.findById(request.getStudentId());
         if (student == null) {
-            throw new StudentNotFoundException("Không tìm thấy sinh viên!");
+            throw new StudentNotFoundException("Student not found!");
         }
         Subject subject = subjectRepository.findById(request.getSubjectId());
         if (subject == null) {
-            throw new SubjectNotFoundException("Không tìm thấy môn học!");
+            throw new SubjectNotFoundException("Subject not found!");
         }
-
         Score score = Score.builder()
                 .id(scoreRepository.AUTO_ID++)
                 .student(student)
@@ -53,16 +52,7 @@ public class ScoreService {
                 .testDate(request.getTestDate())
                 .score(request.getScore())
                 .build();
-        List<Score> scores = scoreRepository.create(score);
-        return scores.stream().map(
-                s -> ScoreDetailResponse.builder()
-                        .id(s.getId())
-                        .student(s.getStudent())
-                        .subject(s.getSubject())
-                        .testDate(s.getTestDate())
-                        .score(s.getScore())
-                        .build()
-        ).collect(Collectors.toList());
+        scoreRepository.save(score);
     }
 
 }

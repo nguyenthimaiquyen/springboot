@@ -7,13 +7,11 @@ import com.example.fragmentmodaljquery.model.response.SubjectDetailResponse;
 import com.example.fragmentmodaljquery.service.SubjectService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,50 +21,41 @@ public class SubjectController {
     private final SubjectService subjectService;
 
     @GetMapping("/subjects")
-    public String home(Model model) {
+    public String home(Model model) throws SubjectNotFoundException {
         List<SubjectDetailResponse> subjects = subjectService.getAll();
         model.addAttribute("subjects", subjects);
         return "subject/subjects";
     }
 
-    @GetMapping("/delete-subject/{id}")
-    public String delete(@PathVariable("id") int id, Model model) throws SubjectNotFoundException {
-        List<SubjectDetailResponse> subjects = subjectService.delete(id);
-        model.addAttribute("subjects", subjects);
-        return "subject/subjects";
+    @GetMapping("/subjects/type")
+    public ResponseEntity<?> getSubjectType() {
+        return ResponseEntity.ok(subjectService.getSubjectType());
     }
 
-    @GetMapping("/create-subject")
-    public String forwardToSubjecteCreation(Model model) {
-        model.addAttribute("SubjectCreationRequest", new SubjectCreationRequest());
-        return "subject/subject-creation";
+    @GetMapping("/subjects/{id}")
+    public ResponseEntity<?> getSubjectDetails(@PathVariable Integer id) throws SubjectNotFoundException {
+        SubjectDetailResponse subject = subjectService.getSubjectDetails(id);
+        return ResponseEntity.ok(subject);
     }
 
-    @PostMapping("/create-subject")
-    public String create(@ModelAttribute("SubjectCreationRequest") @Valid SubjectCreationRequest subject,
-                                Errors errors) {
-        if (errors !=  null && errors.getErrorCount() > 0) {
-            return "subject/subject-creation";
-        }
-        List<SubjectDetailResponse> subjects = subjectService.create(subject);
-        return "redirect:/subjects";
+    @PostMapping("/subjects")
+    public ResponseEntity<?> create(@RequestBody SubjectCreationRequest request) {
+        subjectService.create(request);
+        return ResponseEntity.ok(null);
     }
 
-    @GetMapping("/update-subject/{subject-id}")
-    public String forwardToSubjectUpdate(@PathVariable("subject-id") int id, Model model) throws SubjectNotFoundException {
-        SubjectDetailResponse subject = subjectService.findById(id);
-        model.addAttribute("SubjectUpdateRequest", subject);
-        return "subject/subject-update";
+    @DeleteMapping("/subjects/{id}")
+    public ResponseEntity<?> delete(@PathVariable Integer id) throws SubjectNotFoundException {
+        subjectService.delete(id);
+        return ResponseEntity.ok(null);
     }
 
-    @PostMapping("/update-subject")
-    public String update(@ModelAttribute("SubjectUpdateRequest") @Valid SubjectUpdateRequest subject,
-                                Errors errors) throws SubjectNotFoundException {
-        if (errors !=  null && errors.getErrorCount() > 0) {
-            return "subject/subject-update";
-        }
-        List<SubjectDetailResponse> subjects = subjectService.update(subject);
-        return "redirect:/subjects";
+    @PutMapping("/subjects/{id}")
+    public ResponseEntity<?> update(@PathVariable Integer id,
+                                    @RequestBody SubjectUpdateRequest request) throws SubjectNotFoundException {
+        subjectService.update(id, request);
+        return ResponseEntity.ok(null);
     }
+
 
 }

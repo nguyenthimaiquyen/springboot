@@ -1,9 +1,9 @@
 package com.example.fragmentmodaljquery.controller;
 
-import com.example.fragmentmodaljquery.entity.Score;
 import com.example.fragmentmodaljquery.exception.StudentNotFoundException;
 import com.example.fragmentmodaljquery.exception.SubjectNotFoundException;
 import com.example.fragmentmodaljquery.model.request.ScoreCreationRequest;
+import com.example.fragmentmodaljquery.model.request.SubjectCreationRequest;
 import com.example.fragmentmodaljquery.model.response.ScoreDetailResponse;
 import com.example.fragmentmodaljquery.model.response.StudentDetailResponse;
 import com.example.fragmentmodaljquery.model.response.SubjectDetailResponse;
@@ -12,12 +12,15 @@ import com.example.fragmentmodaljquery.service.StudentService;
 import com.example.fragmentmodaljquery.service.SubjectService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import java.util.List;
 
 @Controller
@@ -27,7 +30,6 @@ public class ScoreController {
     public final SubjectService subjectService;
     public final ScoreService scoreService;
 
-
     @GetMapping("/scores")
     public String getAll(Model model) {
         List<ScoreDetailResponse> scores = scoreService.getAll();
@@ -35,27 +37,22 @@ public class ScoreController {
         return "score/scores";
     }
 
-    @GetMapping("/create-score")
-    public String init(Model model) {
-        List<StudentDetailResponse> students = studentService.getAll();
-        model.addAttribute("students", students);
-
-        List<SubjectDetailResponse> subjects = subjectService.getAll();
-        model.addAttribute("subjects", subjects);
-
-        model.addAttribute("ScoreCreationRequest", new ScoreCreationRequest());
-        return "score/score-creation";
+    @GetMapping("/scores/students")
+    public ResponseEntity<?> getStudent() throws StudentNotFoundException {
+        return ResponseEntity.ok(studentService.getAll());
     }
 
-    @PostMapping("/create-score")
-    public String create(@ModelAttribute("ScoreCreationRequest") @Valid ScoreCreationRequest request,
-                                Errors errors) throws SubjectNotFoundException, StudentNotFoundException {
-        if (errors !=  null && errors.getErrorCount() > 0) {
-            return "score/score-creation";
-        }
-        List<ScoreDetailResponse> scores = scoreService.create(request);
-        return "redirect:/scores";
+    @GetMapping("/scores/subjects")
+    public ResponseEntity<?> getSubject() throws SubjectNotFoundException {
+        return ResponseEntity.ok(subjectService.getAll());
     }
+
+    @PostMapping("/scores")
+    public ResponseEntity<?> create(@RequestBody ScoreCreationRequest request) throws SubjectNotFoundException, StudentNotFoundException {
+        scoreService.create(request);
+        return ResponseEntity.ok(null);
+    }
+
 
 
 

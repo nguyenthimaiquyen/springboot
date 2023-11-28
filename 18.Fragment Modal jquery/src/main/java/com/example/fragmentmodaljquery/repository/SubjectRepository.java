@@ -24,21 +24,6 @@ public class SubjectRepository {
         return fileUtil.readDataFromFile(SUBJECT_DATA_FILE_NAME, Subject[].class);
     }
 
-    public List<Subject> delete(int id) throws SubjectNotFoundException {
-        List<Subject> subjects = getAll();
-        if (CollectionUtils.isEmpty(subjects)) {
-            throw new SubjectNotFoundException("Subjects not found");
-        }
-        for (int i = 0; i < subjects.size(); i++) {
-            if (subjects.get(i).getId() == id) {
-                subjects.remove(i);
-                fileUtil.writeDataToFile(SUBJECT_DATA_FILE_NAME, subjects);
-                return subjects;
-            }
-        }
-        return null;
-    }
-
     public List<Subject> create(Subject subject) {
         List<Subject> subjects = getAll();
         if (CollectionUtils.isEmpty(subjects)) {
@@ -58,20 +43,18 @@ public class SubjectRepository {
         return subjects.stream().filter(b -> b.getId() == id).findFirst().get();
     }
 
-    public List<Subject> update(SubjectUpdateRequest student) throws SubjectNotFoundException {
+
+    public void save(Subject subject) {
         List<Subject> subjects = getAll();
         if (CollectionUtils.isEmpty(subjects)) {
-            throw new SubjectNotFoundException("Subjects not found");
+            subjects = new ArrayList<>();
         }
-        for (int i = 0; i < subjects.size(); i++) {
-            if (subjects.get(i).getId() == student.getId()) {
-                subjects.get(i).setSubjectName(student.getSubjectName());
-                subjects.get(i).setCredit(student.getCredit());
-                subjects.get(i).setSubjectType(student.getSubjectType());
-                fileUtil.writeDataToFile(SUBJECT_DATA_FILE_NAME, subjects);
-                return subjects;
-            }
-        }
-        return null;
+        subjects.add(subject);
+        fileUtil.writeDataToFile(SUBJECT_DATA_FILE_NAME, subjects);
+    }
+
+
+    public void save(List<Subject> subjects) {
+        fileUtil.writeDataToFile(SUBJECT_DATA_FILE_NAME, subjects);
     }
 }

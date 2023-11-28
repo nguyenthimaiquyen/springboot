@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: html_head(pageTitle = 'Score Management - Home')"></head>
+<head th:replace="~{fragments/head :: html_head(pageTitle = 'Score Management - Home')}"></head>
 <body>
-<div th:replace="fragments/menu :: menu"></div>
+<div th:replace="~{fragments/menu :: menu}"></div>
 <div class="container-fluid my-5">
     <div class="row mb-2">
         <div class="col text-center">
@@ -12,7 +12,7 @@
 
     <div class="row my-5">
         <div class="col">
-            <a href="/create-score" class="btn btn-success">Create score</a>
+            <button class="btn btn-success create-score-btn">Create score</button>
         </div>
     </div>
 
@@ -43,5 +43,8 @@
 
 </div>
 
+<div th:replace="~{score/score-creation-modal :: score-creation-modal}"></div>
+
 </body>
+<div th:replace="~{fragments/embedded-js :: embedded-js}"></div>
 </html>

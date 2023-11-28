@@ -1,0 +1,42 @@
+<!-- Modal -->
+<div class="modal fade" id="score-creation-modal" tabindex="-1" role="dialog"
+     aria-hidden="true" th:fragment="score-creation-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tạo mới điểm thi cho sinh viên</h5>
+                <button type="button" class="close" aria-label="Close">
+                    <span aria-hidden="true" data-dismiss="modal">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="create-score-form">
+                    <div class="form-group">
+                        <label for="studentId">Student Name:</label>
+                        <select class="form-group" id="studentId" name="studentId">
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="subjectId">Subject Name:</label>
+                        <select class="form-group" id="subjectId" name="subjectId">
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="testDate">Test Date:</label>
+                        <input type="date" class="form-control" placeholder="Enter test date" id="testDate" name="testDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="score">Score:</label>
+                        <input type="number" class="form-control" placeholder="Enter score" id="score" name="score">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="save-score-btn">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -33,6 +33,12 @@ public class ScoreRepository {
     }
 
 
-
-
+    public void save(Score score) {
+        List<Score> scores = getAll();
+        if (CollectionUtils.isEmpty(scores)) {
+            scores = new ArrayList<>();
+        }
+        scores.add(score);
+        fileUtil.writeDataToFile(SCORE_DATA_FILE_NAME, scores);
+    }
 }

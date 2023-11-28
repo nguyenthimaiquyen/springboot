@@ -2,6 +2,7 @@ package com.example.fragmentmodaljquery.repository;
 
 import com.example.fragmentmodaljquery.entity.Student;
 import com.example.fragmentmodaljquery.exception.StudentNotFoundException;
+import com.example.fragmentmodaljquery.exception.SubjectNotFoundException;
 import com.example.fragmentmodaljquery.model.request.StudentUpdateRequest;
 import com.example.fragmentmodaljquery.util.FileUtil;
 import lombok.RequiredArgsConstructor;
@@ -24,21 +25,6 @@ public class StudentRepository {
         return fileUtil.readDataFromFile(STUDENT_DATA_FILE_NAME, Student[].class);
     }
 
-    public List<Student> delete(int id) throws StudentNotFoundException {
-        List<Student> students = getAll();
-        if (CollectionUtils.isEmpty(students)) {
-            throw new StudentNotFoundException("Students not found");
-        }
-        for (int i = 0; i < students.size(); i++) {
-            if (students.get(i).getId() == id) {
-                students.remove(i);
-                fileUtil.writeDataToFile(STUDENT_DATA_FILE_NAME, students);
-                return students;
-            }
-        }
-        return null;
-    }
-
     public void save(Student student) {
         List<Student> students = getAll();
         if (CollectionUtils.isEmpty(students)) {
@@ -48,31 +34,16 @@ public class StudentRepository {
         fileUtil.writeDataToFile(STUDENT_DATA_FILE_NAME, students);
     }
 
+    public void save(List<Student> students) {
+        fileUtil.writeDataToFile(STUDENT_DATA_FILE_NAME, students);
+    }
 
-    public Student findById(int id) throws StudentNotFoundException {
+
+    public Student findById(Integer id) throws StudentNotFoundException {
         List<Student> students = getAll();
         if (CollectionUtils.isEmpty(students)) {
             throw new StudentNotFoundException("Students not found");
         }
-        return students.stream().filter(b -> b.getId() == id).findFirst().get();
+        return students.stream().filter(s -> s.getId() == id).findFirst().get();
     }
-
-    public List<Student> update(StudentUpdateRequest request) throws StudentNotFoundException {
-        List<Student> students = getAll();
-        if (CollectionUtils.isEmpty(students)) {
-            throw new StudentNotFoundException("Students not found");
-        }
-        for (int i = 0; i < students.size(); i++) {
-            if (students.get(i).getId() == request.getId()) {
-                students.get(i).setName(request.getName());
-                students.get(i).setAddress(request.getAddress());
-                students.get(i).setPhone(request.getPhone());
-                students.get(i).setClassName(request.getClassName());
-                fileUtil.writeDataToFile(STUDENT_DATA_FILE_NAME, students);
-                return students;
-            }
-        }
-        return null;
-    }
-
 }
