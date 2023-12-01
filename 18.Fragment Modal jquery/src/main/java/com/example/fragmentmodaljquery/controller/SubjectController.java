@@ -1,16 +1,13 @@
 package com.example.fragmentmodaljquery.controller;
 
 import com.example.fragmentmodaljquery.exception.SubjectNotFoundException;
-import com.example.fragmentmodaljquery.model.request.SubjectCreationRequest;
-import com.example.fragmentmodaljquery.model.request.SubjectUpdateRequest;
+import com.example.fragmentmodaljquery.model.request.SubjectRequest;
 import com.example.fragmentmodaljquery.model.response.SubjectDetailResponse;
 import com.example.fragmentmodaljquery.service.SubjectService;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,8 +36,8 @@ public class SubjectController {
     }
 
     @PostMapping("/subjects")
-    public ResponseEntity<?> create(@RequestBody SubjectCreationRequest request) {
-        subjectService.create(request);
+    public ResponseEntity<?> create(@RequestBody SubjectRequest request) throws SubjectNotFoundException {
+        subjectService.save(request);
         return ResponseEntity.ok(null);
     }
 
@@ -50,10 +47,9 @@ public class SubjectController {
         return ResponseEntity.ok(null);
     }
 
-    @PutMapping("/subjects/{id}")
-    public ResponseEntity<?> update(@PathVariable Integer id,
-                                    @RequestBody SubjectUpdateRequest request) throws SubjectNotFoundException {
-        subjectService.update(id, request);
+    @PutMapping("/subjects")
+    public ResponseEntity<?> update(@RequestBody SubjectRequest request) throws SubjectNotFoundException {
+        subjectService.save(request);
         return ResponseEntity.ok(null);
     }
 

@@ -2,16 +2,15 @@ package com.example.fragmentmodaljquery.service;
 
 import com.example.fragmentmodaljquery.entity.Student;
 import com.example.fragmentmodaljquery.exception.StudentNotFoundException;
-import com.example.fragmentmodaljquery.exception.SubjectNotFoundException;
-import com.example.fragmentmodaljquery.model.request.StudentCreationRequest;
-import com.example.fragmentmodaljquery.model.request.StudentUpdateRequest;
+import com.example.fragmentmodaljquery.model.request.StudentRequest;
 import com.example.fragmentmodaljquery.model.response.StudentDetailResponse;
 import com.example.fragmentmodaljquery.repository.StudentRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +18,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class StudentService {
     private final StudentRepository studentRepository;
+    private final ObjectMapper objectMapper;
 
     public List<StudentDetailResponse> getAll() throws StudentNotFoundException {
         List<Student> students = studentRepository.getAll();
@@ -45,32 +45,13 @@ public class StudentService {
         studentRepository.save(students);
     }
 
-    public void create(StudentCreationRequest studentCreationRequest) {
-        Student student = Student.builder()
-                .id(studentRepository.AUTO_ID++)
-                .name(studentCreationRequest.getName())
-                .address(studentCreationRequest.getAddress())
-                .phone(studentCreationRequest.getPhone())
-                .className(studentCreationRequest.getClassName())
-                .build();
-        studentRepository.save(student);
-    }
-
-    public void update(Integer id, StudentUpdateRequest request) throws StudentNotFoundException {
-        List<Student> students = studentRepository.getAll();
-        if (CollectionUtils.isEmpty(students)) {
-            throw new StudentNotFoundException("Students not found");
+    public void save(StudentRequest request) throws StudentNotFoundException {
+        Student student = objectMapper.convertValue(request, Student.class);
+        if (!ObjectUtils.isEmpty(request.getId())) {
+            studentRepository.update(student);
+            return;
         }
-        for (int i = 0; i < students.size(); i++) {
-            if (students.get(i).getId() == id) {
-                students.get(i).setName(request.getName());
-                students.get(i).setAddress(request.getAddress());
-                students.get(i).setPhone(request.getPhone());
-                students.get(i).setClassName(request.getClassName());
-                break;
-            }
-        }
-        studentRepository.save(students);
+        studentRepository.add(student);
     }
 
     public StudentDetailResponse getStudentDetails(Integer id) throws StudentNotFoundException {

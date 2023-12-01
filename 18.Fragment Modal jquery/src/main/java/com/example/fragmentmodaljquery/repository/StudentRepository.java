@@ -2,8 +2,6 @@ package com.example.fragmentmodaljquery.repository;
 
 import com.example.fragmentmodaljquery.entity.Student;
 import com.example.fragmentmodaljquery.exception.StudentNotFoundException;
-import com.example.fragmentmodaljquery.exception.SubjectNotFoundException;
-import com.example.fragmentmodaljquery.model.request.StudentUpdateRequest;
 import com.example.fragmentmodaljquery.util.FileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,11 +23,13 @@ public class StudentRepository {
         return fileUtil.readDataFromFile(STUDENT_DATA_FILE_NAME, Student[].class);
     }
 
-    public void save(Student student) {
+    public void add(Student student) {
         List<Student> students = getAll();
         if (CollectionUtils.isEmpty(students)) {
             students = new ArrayList<>();
         }
+        student.setId(AUTO_ID);
+        AUTO_ID++;
         students.add(student);
         fileUtil.writeDataToFile(STUDENT_DATA_FILE_NAME, students);
     }
@@ -45,5 +45,22 @@ public class StudentRepository {
             throw new StudentNotFoundException("Students not found");
         }
         return students.stream().filter(s -> s.getId() == id).findFirst().get();
+    }
+
+    public void update(Student student) throws StudentNotFoundException {
+        List<Student> students = getAll();
+        if (CollectionUtils.isEmpty(students)) {
+            throw new StudentNotFoundException("Students not found");
+        }
+        for (int i = 0; i < students.size(); i++) {
+            if (students.get(i).getId() == student.getId()) {
+                students.get(i).setName(student.getName());
+                students.get(i).setAddress(student.getAddress());
+                students.get(i).setPhone(student.getPhone());
+                students.get(i).setClassName(student.getClassName());
+                break;
+            }
+        }
+        fileUtil.writeDataToFile(STUDENT_DATA_FILE_NAME, students);
     }
 }

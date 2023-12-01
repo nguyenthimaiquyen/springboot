@@ -1,6 +1,76 @@
 $(document).ready(function () {
     toastr.options.timeOut = 2500; // 2.5s
 
+    $.validator.addMethod("pastDate", function (value, element) {
+        if (this.optional(element)) {
+            return true;
+        }
+        const dob = new Date(value);
+        dob.setHours(0);
+        dob.setMinutes(0);
+        dob.setSeconds(0);
+        dob.setMilliseconds(0);
+        const today = new Date();
+        today.setHours(0);
+        today.setMinutes(0);
+        today.setSeconds(0);
+        today.setMilliseconds(0);
+        return this.optional(element) || dob - today < 0 || dob === today;
+    }, "Test date must be a past date");
+
+    $.validator.addMethod("pastDateCustom", function (value, element) {
+        if (this.optional(element)) {
+            return true;
+        }
+        console.log(value)
+        console.log(element)
+        const testMonth = new Date(value).getMonth();
+        const currentMonth = new Date().getMonth();
+        return this.optional(element) || currentMonth - testMonth > 1;
+    }, "Test date must be less than current date a month");
+
+    const validator = $('#create-score-form').validate({
+        onfocusout: false,
+        onkeyup: false,
+        onclick: false,
+        rules: {
+            'studentId': {
+                required: true,
+                maxlength: 100
+            },
+            'subjectId': {
+                required: true,
+                digits: true
+            },
+            "testDate": {
+                required: true,
+                pastDate: true,
+                pastDateCustom: true
+            },
+            "score": {
+                required: true,
+                digits: true,
+            }
+        },
+        messages: {
+            'studentId': {
+                required: "Student must be selected",
+            },
+            'subjectId': {
+                required: "Subject must be selected",
+            },
+            "testDate": {
+                required: "Test date is required",
+                pastDate: "Test date must be a past date",
+                pastDateCustom: "Test date must be less than current date a month"
+            },
+            "score": {
+                required: "Score is required",
+                digits: "Score must be digits"
+            }
+        }
+    });
+
     //call api lấy thông tin của sinh viên
     $.ajax({
         url: "/scores/students",
@@ -53,7 +123,11 @@ $(document).ready(function () {
     });
 
     //create score for a student
-    $('#save-score-btn').click(function () {
+    $('#save-score-btn').click(async function () {
+        const isValidForm = $('#create-score-form').valid();
+        if (!isValidForm) {
+            return;
+        }
         //lấy dữ liệu từ form
         const formScoreData = $('#create-score-form').serializeArray();
         if (!formScoreData || formScoreData.length === 0) {
@@ -67,7 +141,7 @@ $(document).ready(function () {
         }
         console.log(scoreRequestBody)
         //call api lên backend
-        $.ajax({
+        await $.ajax({
             url: "/scores",
             type: "POST",
             data: JSON.stringify(scoreRequestBody),
@@ -84,5 +158,17 @@ $(document).ready(function () {
         });
     });
 
+    // // close modal -> clear form + reset form
+    // $(".close-modal").click(() => {
+    //     $('#create-score-form').trigger("reset");
+    //     validator.resetForm();
+    // });
+
+    // reset form
+    $('#score-creation-modal').on('hidden.bs.modal', function () {
+        $('#create-score-form').trigger("reset");
+        validator.resetForm();
+    });
 
 });
+

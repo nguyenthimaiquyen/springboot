@@ -1,27 +1,27 @@
 <!-- Modal -->
-<div class="modal fade" id="subject-creation-modal" tabindex="-1" role="dialog"
-     aria-hidden="true" th:fragment="subject-creation-modal">
+<div class="modal fade" id="subject-modal" tabindex="-1" role="dialog"
+     aria-hidden="true" th:fragment="subject-modal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Tạo mới môn học</h5>
-                <button type="button" class="close" aria-label="Close">
+                <button type="button" class="close close-modal" aria-label="Close">
                     <span aria-hidden="true" data-dismiss="modal">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form id="create-subject-form">
+                <form id="subject-form">
                     <div class="form-group">
-                        <label for="subjectName">Subject Name:</label>
+                        <label for="subjectName">Subject Name<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="subjectName"
                                placeholder="Enter subject name" name="subjectName">
                     </div>
                     <div class="form-group">
-                        <label for="credit">Credit:</label>
+                        <label for="credit">Credit<span class="text-danger">*</span></label>
                         <input type="number" class="form-control" id="credit" placeholder="Enter credit" name="credit">
                     </div>
                     <div class="form-group">
-                        <label for="subjectType">Subject Type:</label>
+                        <label for="subjectType">Subject Type<span class="text-danger">*</span></label>
                         <select class="form-control" id="subjectType" name="subjectType">
 
                         </select>
@@ -29,8 +29,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="create-subject-btn">Save</button>
+                <button type="button" class="btn btn-secondary close-modal" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="save-subject-btn">Save</button>
             </div>
         </div>
     </div>

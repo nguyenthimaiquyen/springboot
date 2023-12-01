@@ -1,16 +1,13 @@
 package com.example.fragmentmodaljquery.controller;
 
 import com.example.fragmentmodaljquery.exception.StudentNotFoundException;
-import com.example.fragmentmodaljquery.model.request.StudentCreationRequest;
-import com.example.fragmentmodaljquery.model.request.StudentUpdateRequest;
+import com.example.fragmentmodaljquery.model.request.StudentRequest;
 import com.example.fragmentmodaljquery.model.response.StudentDetailResponse;
 import com.example.fragmentmodaljquery.service.StudentService;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -35,8 +32,8 @@ public class StudentController {
     }
 
     @PostMapping("/students")
-    public ResponseEntity<?> create(@RequestBody StudentCreationRequest request) {
-        studentService.create(request);
+    public ResponseEntity<?> create(@RequestBody StudentRequest request) throws StudentNotFoundException {
+        studentService.save(request);
         return ResponseEntity.ok(null);
     }
 
@@ -47,10 +44,9 @@ public class StudentController {
         return ResponseEntity.ok(null);
     }
 
-    @PutMapping("/students/{id}")
-    public ResponseEntity<?> update(@PathVariable Integer id,
-                                    @RequestBody StudentUpdateRequest request) throws StudentNotFoundException {
-        studentService.update(id, request);
+    @PutMapping("/students")
+    public ResponseEntity<?> update(@RequestBody StudentRequest request) throws StudentNotFoundException {
+        studentService.save(request);
         return ResponseEntity.ok(null);
     }
 

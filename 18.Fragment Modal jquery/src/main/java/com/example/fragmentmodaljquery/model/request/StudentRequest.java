@@ -14,10 +14,8 @@ import org.hibernate.validator.constraints.Length;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class StudentUpdateRequest {
+public class StudentRequest {
 
-    @NotNull(message = "ID bắt buộc phải có")
-    @Min(value = 1, message = "ID không âm")
     private Integer id;
 
     @NotBlank(message = "Tên sinh viên bắt buộc nhập")

@@ -1,36 +1,40 @@
 <!-- Modal -->
-<div class="modal fade" id="student-creation-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true" th:fragment="student-creation-modal">
+<div class="modal fade" id="student-modal" tabindex="-1" role="dialog"
+     aria-hidden="true" th:fragment="student-modal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Tạo mới sinh viên</h5>
-                <button type="button" class="close" aria-label="Close">
+                <button type="button" class="close close-modal" aria-label="Close">
                     <span aria-hidden="true" data-dismiss="modal">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form id="create-student-form">
+                <form id="student-form">
                     <div class="form-group">
-                        <label for="name">Name:</label>
+                        <label for="name">Name<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="name" placeholder="Enter name" name="name">
                     </div>
                     <div class="form-group">
-                        <label for="address">Address:</label>
+                        <label for="address">Address<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="address" placeholder="Enter address" name="address">
                     </div>
                     <div class="form-group">
-                        <label for="phone">Phone:</label>
+                        <label for="phone">Phone<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="phone" placeholder="Enter phone" name="phone">
                     </div>
                     <div class="form-group">
-                        <label for="className">Class Name:</label>
+                        <label for="className">Class Name<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="className" placeholder="Enter class name" name="className">
                     </div>
+<!--                    <div class="form-group">-->
+<!--                        <label for="dob">Date of birth</label>-->
+<!--                        <input type="date" class="form-control" id="dob" placeholder="Enter date of birth" name="dob">-->
+<!--                    </div>-->
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary close-modal" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" id="save-student-btn">Save</button>
             </div>
         </div>
