@@ -167,6 +167,7 @@ $(document).ready(function () {
     // reset form
     $('#score-creation-modal').on('hidden.bs.modal', function () {
         $('#create-score-form').trigger("reset");
+        $('#create-score-form input').removeClass("error");
         validator.resetForm();
     });
 

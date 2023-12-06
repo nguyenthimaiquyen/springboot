@@ -14,40 +14,41 @@ import java.util.List;
 
 @Controller
 @AllArgsConstructor
+@RequestMapping("/subjects")
 public class SubjectController {
     private final SubjectService subjectService;
 
-    @GetMapping("/subjects")
+    @GetMapping
     public String home(Model model) throws SubjectNotFoundException {
         List<SubjectDetailResponse> subjects = subjectService.getAll();
         model.addAttribute("subjects", subjects);
         return "subject/subjects";
     }
 
-    @GetMapping("/subjects/type")
+    @GetMapping("/type")
     public ResponseEntity<?> getSubjectType() {
         return ResponseEntity.ok(subjectService.getSubjectType());
     }
 
-    @GetMapping("/subjects/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getSubjectDetails(@PathVariable Integer id) throws SubjectNotFoundException {
         SubjectDetailResponse subject = subjectService.getSubjectDetails(id);
         return ResponseEntity.ok(subject);
     }
 
-    @PostMapping("/subjects")
+    @PostMapping
     public ResponseEntity<?> create(@RequestBody SubjectRequest request) throws SubjectNotFoundException {
         subjectService.save(request);
         return ResponseEntity.ok(null);
     }
 
-    @DeleteMapping("/subjects/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Integer id) throws SubjectNotFoundException {
         subjectService.delete(id);
         return ResponseEntity.ok(null);
     }
 
-    @PutMapping("/subjects")
+    @PutMapping
     public ResponseEntity<?> update(@RequestBody SubjectRequest request) throws SubjectNotFoundException {
         subjectService.save(request);
         return ResponseEntity.ok(null);

@@ -15,36 +15,37 @@ import java.util.List;
 
 @Controller
 @AllArgsConstructor
+@RequestMapping("/students")
 public class StudentController {
     private final StudentService studentService;
 
-    @GetMapping("/")
+    @GetMapping
     public String getAllStudent(Model model) throws StudentNotFoundException {
         List<StudentDetailResponse> students = studentService.getAll();
         model.addAttribute("students", students);
         return "index";
     }
 
-    @GetMapping("/students/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getStudentDetails(@PathVariable Integer id) throws StudentNotFoundException {
         StudentDetailResponse student = studentService.getStudentDetails(id);
         return ResponseEntity.ok(student);
     }
 
-    @PostMapping("/students")
+    @PostMapping
     public ResponseEntity<?> create(@RequestBody StudentRequest request) throws StudentNotFoundException {
         studentService.save(request);
         return ResponseEntity.ok(null);
     }
 
 
-    @DeleteMapping("/students/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Integer id) throws StudentNotFoundException {
         studentService.delete(id);
         return ResponseEntity.ok(null);
     }
 
-    @PutMapping("/students")
+    @PutMapping
     public ResponseEntity<?> update(@RequestBody StudentRequest request) throws StudentNotFoundException {
         studentService.save(request);
         return ResponseEntity.ok(null);

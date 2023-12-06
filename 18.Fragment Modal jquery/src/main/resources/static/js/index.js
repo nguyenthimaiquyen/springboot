@@ -172,6 +172,7 @@ $(document).ready(function () {
         $("#student-modal #save-student-btn").attr("action-type", "");
         $('#student-modal #save-student-btn').attr("student-id", "");
         $('#student-form').trigger("reset");
+        $('#student-form input').removeClass("error");
         validator.resetForm();
     });
 

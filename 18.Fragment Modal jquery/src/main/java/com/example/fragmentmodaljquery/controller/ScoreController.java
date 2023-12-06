@@ -14,34 +14,36 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/scores")
 public class ScoreController {
     public final StudentService studentService;
     public final SubjectService subjectService;
     public final ScoreService scoreService;
 
-    @GetMapping("/scores")
+    @GetMapping
     public String getAll(Model model) {
         List<ScoreDetailResponse> scores = scoreService.getAll();
         model.addAttribute("scores", scores);
         return "score/scores";
     }
 
-    @GetMapping("/scores/students")
+    @GetMapping("/students")
     public ResponseEntity<?> getStudent() throws StudentNotFoundException {
         return ResponseEntity.ok(studentService.getAll());
     }
 
-    @GetMapping("/scores/subjects")
+    @GetMapping("/subjects")
     public ResponseEntity<?> getSubject() throws SubjectNotFoundException {
         return ResponseEntity.ok(subjectService.getAll());
     }
 
-    @PostMapping("/scores")
+    @PostMapping
     public ResponseEntity<?> create(@RequestBody ScoreCreationRequest request) throws SubjectNotFoundException, StudentNotFoundException {
         scoreService.create(request);
         return ResponseEntity.ok(null);

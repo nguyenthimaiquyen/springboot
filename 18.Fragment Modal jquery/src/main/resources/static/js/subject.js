@@ -4,35 +4,39 @@ $(document).ready(function () {
 
     let deleteSubjectId = -1;
 
-    // get subject types
-    $.ajax({
-        url: "/subjects/type",
-        type: 'GET',
-        contentType: "application/json; charset=utf-8",
-        success: function (data) {
-            const subjectTypeSelection = $('#subject-modal #subjectType');
-            if (subjectTypeSelection.children().length === 0) {
-                if (!data || data.length === 0) {
-                    return;
+    function getSubjectType() {
+        $.ajax({
+            url: "/subjects/type",
+            type: 'GET',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                const subjectTypeSelection = $('#subject-modal #subjectType');
+                if (subjectTypeSelection.children().length === 0) {
+                    if (!data || data.length === 0) {
+                        return;
+                    }
+                    let subjectTypeOptions = "";
+                    for (let i = 0; i < data.length; i++) {
+                        subjectTypeOptions += "<option value='" + data[i].code + "'>" + data[i].name + "</option>";
+                    }
+                    subjectTypeSelection.append($(subjectTypeOptions));
                 }
-                let subjectTypeOptions = "";
-                for (let i = 0; i < data.length; i++) {
-                    subjectTypeOptions += "<option value='" + data[i].code + "'>" + data[i].name + "</option>";
-                }
-                subjectTypeSelection.append($(subjectTypeOptions));
+            },
+            error: function (data) {
+                toastr.warning(data.responseJSON.error);
             }
-        },
-        error: function (data) {
-            toastr.warning(data.responseJSON.error);
-        }
-    });
+        });
+    }
+
+    getSubjectType();
+    setInterval(function () {
+        getSubjectType();
+    }, 900000); // 15p chạy 1 lần
 
     $.validator.addMethod("creditCustom", function (value, element) {
         if (this.optional(element)) {
             return true;
         }
-        console.log(value)
-        console.log(element)
         return this.optional(element) || value > 0;
     }, "Credit must be greater than zero");
 
@@ -79,8 +83,6 @@ $(document).ready(function () {
 
     //open modal to update a subject
     $('.update-subject-modal-open').click(async function (event) {
-        $('#subject-form').trigger("reset");
-        validator.resetForm();
         //call api lên java để lấy dữ liệu
         const updateSubjectId = parseInt($(event.currentTarget).attr("subject-id"));
         let subject = null;
@@ -184,6 +186,7 @@ $(document).ready(function () {
         $("#subject-modal #save-subject-btn").attr("action-type", "");
         $('#subject-modal #save-subject-btn').attr("subject-id", "");
         $('#subject-form').trigger("reset");
+        $('#subject-form input').removeClass("error");
         validator.resetForm();
     });
     //
