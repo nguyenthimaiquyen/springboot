@@ -1,0 +1,14 @@
+<div class="row" th:fragment="admin-menu">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <ul class="navbar-nav">
+            <li class="nav-item active" >
+<!--                th:classappend="${#httpServletRequest.requestURI == '/' ? 'active' : ''}"-->
+                <a class="nav-link" th:href="@{/admin}">Products</a>
+            </li>
+            <li class="nav-item active">
+<!--                th:classappend="${#httpServletRequest.requestURI == '/subjects' ? 'active' : ''}"-->
+                <a class="nav-link" th:href="@{/admin/appointments}">Appointments</a>
+            </li>
+        </ul>
+    </nav>
+</div>

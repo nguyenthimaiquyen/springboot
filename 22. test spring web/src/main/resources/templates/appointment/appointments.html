@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/admin-head :: html_head(pageTitle = 'Your Pets - Admin')}"></head>
+<body>
+<div th:replace="~{fragments/admin-menu :: admin-menu}"></div>
+<div class="container-fluid my-5">
+    <div class="row mb-3">
+        <div class="col text-center">
+            <h2>Appointment Management</h2>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col">
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Customer Name</th>
+                    <th>Customer Phone</th>
+                    <th>Customer Email</th>
+                    <th>Content</th>
+                    <th>Status</th>
+                    <th>Created At</th>
+                    <th>Handled At</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="appointment : ${appointments}">
+                    <td th:text="${appointment.id}"></td>
+                    <td th:text="${appointment.name}"></td>
+                    <td th:text="${appointment.phone}"></td>
+                    <td th:text="${appointment.email}"></td>
+                    <td th:text="${appointment.content}"></td>
+                    <td>
+                        <span class="badge badge-success mr-1" th:each="status: ${appointment.status}">
+                            <span th:text="${status.name}"></span>
+                        </span>
+                    </td>
+                    <td th:text="${appointment.createdAt}"></td>
+                    <td th:text="${appointment.handledAt}"></td>
+                    <td>
+                        <button class="btn btn-primary btn-sm admin-appointment-approve-btn"
+                                th:attr="appointment-id=${appointment.id}">
+                            <i class="fas fa-check-square"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm admin-appointment-reject-btn"
+                                th:attr="appointment-id=${appointment.id}">
+                            <i class="fas fa-minus-square"></i>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div th:replace="~{appointment/admin-appointment-approvement-modal :: admin-appointment-approvement-modal}"></div>
+<div th:replace="~{appointment/admin-appointment-reject-modal :: admin-appointment-reject-modal}"></div>
+
+
+</body>
+<div th:replace="~{fragments/embedded-js :: embedded-js}"></div>
+</html>

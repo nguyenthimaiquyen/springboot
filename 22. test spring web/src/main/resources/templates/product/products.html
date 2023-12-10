@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/admin-head :: html_head(pageTitle = 'Your Pets - Admin')}"></head>
+<body>
+<div th:replace="~{fragments/admin-menu :: admin-menu}"></div>
+<div class="container-fluid my-5">
+    <div class="row mb-2">
+        <div class="col text-center">
+            <h2>Product Management</h2>
+        </div>
+    </div>
+
+    <div class="row my-5">
+        <div class="col">
+            <button class="btn btn-success create-product-btn">Create product</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="product : ${products}">
+                    <td th:text="${product.id}"></td>
+                    <td th:text="${product.name}"></td>
+                    <td th:text="${product.price}"></td>
+                    <td th:text="${product.description}"></td>
+                    <td th:text="${product.image}"></td>
+                    <td>
+                        <button class="btn btn-primary btn-sm update-product-btn" th:attr="product-id=${product.id}">
+                            <i class="far fa-edit" aria-hidden="true"></i>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div th:replace="~{product/product-modal :: product-modal}"></div>
+
+
+</body>
+<div th:replace="~{fragments/embedded-js :: embedded-js}"></div>
+</html>
