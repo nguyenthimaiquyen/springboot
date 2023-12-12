@@ -15,7 +15,7 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class StudentRequest {
 
-    private Integer id;
+    private Long id;
 
     @NotBlank(message = "Tên sinh viên bắt buộc nhập")
     @Length(max = 100, message = "Tên sinh viên không được vượt quá 100 kí tự")

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class SubjectDetailResponse {
-    private int id;
+    private Long id;
     private String subjectName;
     private int credit;
     private SubjectType subjectType;

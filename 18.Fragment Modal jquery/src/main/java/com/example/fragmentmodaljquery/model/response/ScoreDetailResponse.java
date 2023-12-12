@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 public class ScoreDetailResponse {
-    private int id;
+    private Long id;
     private Student student;
     private Subject subject;
     private LocalDate testDate;

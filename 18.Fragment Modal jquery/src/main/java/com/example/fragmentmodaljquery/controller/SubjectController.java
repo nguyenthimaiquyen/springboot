@@ -31,7 +31,7 @@ public class SubjectController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getSubjectDetails(@PathVariable Integer id) throws SubjectNotFoundException {
+    public ResponseEntity<?> getSubjectDetails(@PathVariable Long id) throws SubjectNotFoundException {
         SubjectDetailResponse subject = subjectService.getSubjectDetails(id);
         return ResponseEntity.ok(subject);
     }
@@ -43,7 +43,7 @@ public class SubjectController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Integer id) throws SubjectNotFoundException {
+    public ResponseEntity<?> delete(@PathVariable Long id) throws SubjectNotFoundException {
         subjectService.delete(id);
         return ResponseEntity.ok(null);
     }

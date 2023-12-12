@@ -18,11 +18,11 @@ public class ScoreCreationRequest {
 
     @NotNull(message = "Sinh viên bắt buộc có")
     @Min(value = 1, message = "ID sinh viên không âm")
-    private Integer studentId;
+    private Long studentId;
 
     @NotNull(message = "Môn học bắt buộc có")
     @Min(value = 1, message = "ID môn học không âm")
-    private Integer subjectId;
+    private Long subjectId;
 
     @NotNull(message = "Ngày thi bắt buộc nhập")
     @DateTimeFormat(pattern = "yyyy-MM-dd")

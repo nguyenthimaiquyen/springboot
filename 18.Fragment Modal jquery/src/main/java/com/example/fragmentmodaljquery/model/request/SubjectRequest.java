@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
 public class SubjectRequest {
     @NotNull(message = "ID bắt buộc phải có")
     @Min(value = 1, message = "ID không âm")
-    private Integer id;
+    private Long id;
 
     @NotBlank(message = "Tên môn học bắt buộc nhập")
     @Length(max = 100, message = "Tên môn học không được vượt quá 100 kí tự")

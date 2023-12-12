@@ -7,9 +7,9 @@ import com.example.fragmentmodaljquery.exception.StudentNotFoundException;
 import com.example.fragmentmodaljquery.exception.SubjectNotFoundException;
 import com.example.fragmentmodaljquery.model.request.ScoreCreationRequest;
 import com.example.fragmentmodaljquery.model.response.ScoreDetailResponse;
-import com.example.fragmentmodaljquery.repository.ScoreRepository;
-import com.example.fragmentmodaljquery.repository.StudentRepository;
-import com.example.fragmentmodaljquery.repository.SubjectRepository;
+import com.example.fragmentmodaljquery.repository.ScoretJpaRepository;
+import com.example.fragmentmodaljquery.repository.StudentJpaRepository;
+import com.example.fragmentmodaljquery.repository.SubjectJpaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +19,12 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class ScoreService {
-    private final StudentRepository studentRepository;
-    private final SubjectRepository subjectRepository;
-    private final ScoreRepository scoreRepository;
+    private final StudentJpaRepository studentJpaRepository;
+    private final SubjectJpaRepository subjectJpaRepository;
+    private final ScoretJpaRepository scoretJpaRepository;
 
     public List<ScoreDetailResponse> getAll() {
-        List<Score> scores = scoreRepository.getAll();
+        List<Score> scores = scoretJpaRepository.findAll();
         return scores.stream().map(
                 score -> ScoreDetailResponse.builder()
                     .id(score.getId())
@@ -37,22 +37,21 @@ public class ScoreService {
     }
 
     public void create(ScoreCreationRequest request) throws StudentNotFoundException, SubjectNotFoundException {
-        Student student = studentRepository.findById(request.getStudentId());
+        Student student = studentJpaRepository.findById(request.getStudentId()).get();
         if (student == null) {
             throw new StudentNotFoundException("Student not found!");
         }
-        Subject subject = subjectRepository.findById(request.getSubjectId());
+        Subject subject = subjectJpaRepository.findById(request.getSubjectId()).get();
         if (subject == null) {
             throw new SubjectNotFoundException("Subject not found!");
         }
         Score score = Score.builder()
-                .id(scoreRepository.AUTO_ID++)
                 .student(student)
                 .subject(subject)
                 .testDate(request.getTestDate())
                 .score(request.getScore())
                 .build();
-        scoreRepository.save(score);
+        scoretJpaRepository.save(score);
     }
 
 }
