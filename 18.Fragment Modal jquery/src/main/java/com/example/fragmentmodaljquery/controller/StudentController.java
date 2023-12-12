@@ -1,6 +1,7 @@
 package com.example.fragmentmodaljquery.controller;
 
 import com.example.fragmentmodaljquery.exception.StudentNotFoundException;
+import com.example.fragmentmodaljquery.model.request.SearchStudentRequest;
 import com.example.fragmentmodaljquery.model.request.StudentRequest;
 import com.example.fragmentmodaljquery.model.response.StudentDetailResponse;
 import com.example.fragmentmodaljquery.service.StudentService;
@@ -20,8 +21,8 @@ public class StudentController {
     private final StudentService studentService;
 
     @GetMapping
-    public String getAllStudent(Model model) {
-        List<StudentDetailResponse> students = studentService.getAll();
+    public String searchStudent(Model model, SearchStudentRequest request) {
+        List<StudentDetailResponse> students = studentService.searchStudent(request);
         model.addAttribute("students", students);
         return "index";
     }

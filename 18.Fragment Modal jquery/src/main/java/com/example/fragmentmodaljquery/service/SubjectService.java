@@ -3,6 +3,7 @@ package com.example.fragmentmodaljquery.service;
 
 import com.example.fragmentmodaljquery.entity.Subject;
 import com.example.fragmentmodaljquery.exception.SubjectNotFoundException;
+import com.example.fragmentmodaljquery.model.request.SearchSubjectRequest;
 import com.example.fragmentmodaljquery.model.request.SubjectRequest;
 import com.example.fragmentmodaljquery.model.response.SubjectDetailResponse;
 import com.example.fragmentmodaljquery.model.response.SubjectTypeResponse;
@@ -11,11 +12,10 @@ import com.example.fragmentmodaljquery.statics.SubjectType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,19 +25,6 @@ public class SubjectService {
     private final SubjectJpaRepository subjectJpaRepository;
 
     public List<SubjectDetailResponse> getAll() {
-//        List<Subject> subjects = subjectRepository.getAll();
-//        if (CollectionUtils.isEmpty(subjects)) {
-//            throw new SubjectNotFoundException("Subjects not found");
-//        }
-//        return subjects.stream().map(
-//                subject -> SubjectDetailResponse.builder()
-//                    .id(subject.getId())
-//                    .subjectName(subject.getSubjectName())
-//                    .credit(subject.getCredit())
-//                    .subjectType(subject.getSubjectType())
-//                    .build()
-//        ).collect(Collectors.toList());
-
         List<Subject> subjects = subjectJpaRepository.findAll();
         return subjects.stream().map(
                 subject -> SubjectDetailResponse.builder()
@@ -52,12 +39,6 @@ public class SubjectService {
 
     public void delete(Long id) {
         subjectJpaRepository.deleteById(id);
-//        List<Subject> subjects = subjectRepository.getAll();
-//        if (CollectionUtils.isEmpty(subjects)) {
-//            throw new SubjectNotFoundException("Subjects not found");
-//        }
-//        subjects.removeIf(s -> s.getId() == id);
-//        subjectRepository.save(subjects);
     }
 
     public List<SubjectTypeResponse> getSubjectType() {
@@ -72,18 +53,6 @@ public class SubjectService {
     }
 
     public SubjectDetailResponse getSubjectDetails(Long id) throws SubjectNotFoundException {
-//        List<Subject> subjects = subjectRepository.getAll();
-//        if (CollectionUtils.isEmpty(subjects)) {
-//            throw new SubjectNotFoundException("Subjects not found");
-//        }
-//        return subjects.stream().filter(s -> s.getId() == id).findFirst().map(
-//                subject -> SubjectDetailResponse.builder()
-//                    .id(subject.getId())
-//                    .subjectName(subject.getSubjectName())
-//                    .credit(subject.getCredit())
-//                    .subjectType(subject.getSubjectType())
-//                    .build()
-//        ).get() ;
         return subjectJpaRepository.findById(id).map(
                 subject -> SubjectDetailResponse.builder()
                     .id(subject.getId())
@@ -94,17 +63,44 @@ public class SubjectService {
         ).orElseThrow( () -> new SubjectNotFoundException("Subject with id " + id + "could not be found"));
     }
 
-    public void save(SubjectRequest request) throws SubjectNotFoundException {
+    @Transactional
+    public void save(SubjectRequest request) {
         Subject subject = objectMapper.convertValue(request, Subject.class);
         if (!ObjectUtils.isEmpty(request.getId())) {
-            Optional<Subject> subjectOptional = subjectJpaRepository.findById(request.getId());
-            Subject subjectNeedUpdate = subjectOptional.get();
-            subjectNeedUpdate.setSubjectName(request.getSubjectName());
-            subjectNeedUpdate.setCredit(request.getCredit());
-            subjectNeedUpdate.setSubjectType(request.getSubjectType());
-            subjectJpaRepository.save(subjectNeedUpdate);
+//            Optional<Subject> subjectOptional = subjectJpaRepository.findById(request.getId());
+//            Subject subjectNeedUpdate = subjectOptional.get();
+//            subjectNeedUpdate.setSubjectName(request.getSubjectName());
+//            subjectNeedUpdate.setCredit(request.getCredit());
+//            subjectNeedUpdate.setSubjectType(request.getSubjectType());
+//            subjectJpaRepository.save(subjectNeedUpdate);
+            subjectJpaRepository.updateSubject(
+                    request.getId(), request.getSubjectName(), request.getCredit(), request.getSubjectType()
+            );
             return;
         }
         subjectJpaRepository.save(subject);
+    }
+
+    public List<SubjectDetailResponse> searchSubject(SearchSubjectRequest request) {
+        List<Subject> subjects;
+        if ((request.getSubjectName() == null || request.getSubjectName().trim().equals(""))
+                && (request.getCredit() == null )) {
+            subjects = subjectJpaRepository.findAll();
+        } else if (request.getCredit() == null && request.getSubjectName() != null) {
+            subjects = subjectJpaRepository.findBySubjectNameLikeIgnoreCase("%" + request.getSubjectName() + "%");
+        } else if ((request.getSubjectName() == null || request.getSubjectName().trim().equals("")) && request.getCredit() != null) {
+            subjects = subjectJpaRepository.findByCredit(request.getCredit());
+        } else {
+            subjects = subjectJpaRepository.findByNameAndCredit(
+                    "%" + request.getSubjectName() + "%", request.getCredit());
+        }
+        return subjects.stream().map(
+                subject -> SubjectDetailResponse.builder()
+                    .id(subject.getId())
+                    .subjectName(subject.getSubjectName())
+                    .credit(subject.getCredit())
+                    .subjectType(subject.getSubjectType())
+                    .build()
+        ).collect(Collectors.toList());
     }
 }

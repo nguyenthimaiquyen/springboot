@@ -1,6 +1,7 @@
 package com.example.fragmentmodaljquery.controller;
 
 import com.example.fragmentmodaljquery.exception.SubjectNotFoundException;
+import com.example.fragmentmodaljquery.model.request.SearchSubjectRequest;
 import com.example.fragmentmodaljquery.model.request.SubjectRequest;
 import com.example.fragmentmodaljquery.model.response.SubjectDetailResponse;
 import com.example.fragmentmodaljquery.service.SubjectService;
@@ -19,8 +20,8 @@ public class SubjectController {
     private final SubjectService subjectService;
 
     @GetMapping
-    public String home(Model model) throws SubjectNotFoundException {
-        List<SubjectDetailResponse> subjects = subjectService.getAll();
+    public String searchSubject(Model model, SearchSubjectRequest request) {
+        List<SubjectDetailResponse> subjects = subjectService.searchSubject(request);
         model.addAttribute("subjects", subjects);
         return "subject/subjects";
     }

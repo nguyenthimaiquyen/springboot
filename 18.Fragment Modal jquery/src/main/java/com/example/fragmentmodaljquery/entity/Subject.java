@@ -1,12 +1,10 @@
 package com.example.fragmentmodaljquery.entity;
 
 import com.example.fragmentmodaljquery.statics.SubjectType;
-import io.swagger.models.auth.In;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 import javax.persistence.*;
 
