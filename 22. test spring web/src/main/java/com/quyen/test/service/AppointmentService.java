@@ -48,6 +48,9 @@ public class AppointmentService {
 
     public void approve(Long id) {
         Appointment appointment = appointmentJpaRepository.findById(id).get();
+        if (!appointment.getStatus().getCode().equals("PENDING")) {
+            return;
+        }
         appointment.setStatus(Status.APPROVED);
         appointment.setHandledAt(LocalDateTime.now());
         appointmentJpaRepository.save(appointment);
@@ -56,6 +59,9 @@ public class AppointmentService {
 
     public void reject(Long id) {
         Appointment appointment = appointmentJpaRepository.findById(id).get();
+        if (!appointment.getStatus().getCode().equals("PENDING")) {
+            return;
+        }
         appointment.setStatus(Status.REJECTED);
         appointment.setHandledAt(LocalDateTime.now());
         appointmentJpaRepository.save(appointment);
@@ -75,4 +81,6 @@ public class AppointmentService {
         String name = appointment.getName();
         emailService.sendRejectedMail(name, email);
     }
+
+
 }

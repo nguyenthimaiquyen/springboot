@@ -42,11 +42,13 @@
                     <td th:text="${appointment.handledAt}"></td>
                     <td>
                         <button class="btn btn-primary btn-sm admin-appointment-approve-btn"
-                                th:attr="appointment-id=${appointment.id}">
+                                th:attr="appointment-id=${appointment.id}, status=${appointment.status.code}"
+                                th:classappend="${appointment.status.code} == 'PENDING' ? 'enable' : 'disabled'">
                             <i class="fas fa-check-square"></i>
                         </button>
                         <button class="btn btn-danger btn-sm admin-appointment-reject-btn"
-                                th:attr="appointment-id=${appointment.id}">
+                                th:attr="appointment-id=${appointment.id}, status=${appointment.status.code}"
+                                th:classappend="${appointment.status.code} == 'PENDING' ? 'enable' : 'disabled'">
                             <i class="fas fa-minus-square"></i>
                         </button>
                     </td>

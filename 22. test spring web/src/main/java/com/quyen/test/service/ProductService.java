@@ -9,7 +9,13 @@ import com.quyen.test.repository.ProductJpaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,6 +26,7 @@ public class ProductService {
     private final ObjectMapper objectMapper;
     private final ProductJpaRepository productJpaRepository;
 
+
     public List<ProductResponse> getAll() {
         List<Product> products = productJpaRepository.findAll();
         return products.stream().map(
@@ -28,7 +35,7 @@ public class ProductService {
                         .name(product.getName())
                         .price(product.getPrice())
                         .description(product.getDescription())
-                        .image(product.getImage())
+//                        .images(product.getImages())
                         .build()
         ).collect(Collectors.toList());
     }
@@ -40,7 +47,7 @@ public class ProductService {
                         .name(product.getName())
                         .price(product.getPrice())
                         .description(product.getDescription())
-                        .image(product.getImage())
+//                        .images(product.getImages())
                         .build()
         ).orElseThrow( () -> new ProductNotFoundException("Product with id " + id + " could not be found"));
     }
@@ -53,10 +60,33 @@ public class ProductService {
             productNeedUpdate.setName(request.getName());
             productNeedUpdate.setPrice(request.getPrice());
             productNeedUpdate.setDescription(request.getDescription());
-            productNeedUpdate.setImage(request.getImage());
+//            productNeedUpdate.setImages(request.getImage());
             productJpaRepository.save(productNeedUpdate);
             return;
         }
         productJpaRepository.save(product);
     }
+
+    public void create(ProductRequest request, List<MultipartFile> images) {
+        //lưu ảnh
+        List<String> imageUrls = images.stream().map(img -> {
+            String filePath = "images" + File.separator + img.getOriginalFilename();
+            try {
+                Files.copy(img.getInputStream(), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return img.getOriginalFilename();
+        }).collect(Collectors.toList());
+
+        Product product = Product.builder()
+                .name(request.getName())
+                .price(request.getPrice())
+                .description(request.getDescription())
+//                .images(imageUrls)
+                .build();
+        productJpaRepository.save(product);
+    }
+
+
 }

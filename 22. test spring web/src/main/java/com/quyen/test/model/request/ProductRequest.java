@@ -9,7 +9,9 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -29,8 +31,8 @@ public class ProductRequest {
     @Length(max = 1000, message = "Description must be less than 1000 characters")
     private String description;
 
-    @NotBlank(message = "Image is required")
-    private String image;
+    @NotEmpty(message = "Image is required")
+    private List<String> image;
 
 
 }

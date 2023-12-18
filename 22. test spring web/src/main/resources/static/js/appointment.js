@@ -6,6 +6,10 @@ $(document).ready(function () {
 
     //open modal approve appointment
     $('.admin-appointment-approve-btn').click(function (event) {
+        const status = $(event.currentTarget).attr("status");
+        if (status !== "PENDING") {
+            return;
+        }
         approveAppointmentId = parseInt($(event.currentTarget).attr("appointment-id"));
         $('#admin-appointment-approvement-modal').modal('show');
     });
@@ -35,6 +39,10 @@ $(document).ready(function () {
 
     //open modal reject appointment
     $('.admin-appointment-reject-btn').click(function (event) {
+        const status = $(event.currentTarget).attr("status");
+        if (status !== "PENDING") {
+            return;
+        }
         rejectAppointmentId = parseInt($(event.currentTarget).attr("appointment-id"));
         $('#admin-appointment-reject-modal').modal('show');
     });
