@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/admin-head :: html_head(pageTitle = 'User Management - Home')}"></head>
+<body>
+<div class="container-fluid my-5">
+    <div class="row mb-2">
+        <div class="col text-center">
+            <h2>Danh sách user</h2>
+        </div>
+    </div>
+
+    <div class="row mx-5 px-5 my-5">
+        <div class="col mx-5 px-5">
+            <form method="get" action="/users">
+                <div class="form-group">
+                    <label for="name">Search By Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Enter name" name="name"
+                           th:value="${requestSearch.name}">
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row my-3">
+        <div class="col">
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Name</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.name}"></td>
+                    <td>
+                        <a th:href="@{'/users/' + ${user.id} + '/files'}" class="link-primary">Xem chi tiết</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-4" th:text="${'Tổng số ' + totalElement + ' bản ghi'}">
+        </div>
+
+        <div class="col-8 d-flex justify-content-end align-items-center">
+            <div class="mr-3">
+                <span>Hiển thị</span>
+                <select class="mr-1" id="page-size">
+                    <option value="2" th:selected="${pageSize==2}">2</option>
+                    <option value="3" th:selected="${pageSize==3}">3</option>
+                    <option value="5" th:selected="${pageSize==5}">5</option>
+                </select>
+                <span>bản ghi</span>
+            </div>
+            <ul class="pagination justify-content-end mb-0">
+                <li class="page-item">
+                    <a class="page-link" th:href="@{'/users?pageSize=' + ${pageSize} + '&' + 'currentPage=0'}">
+                        <i class="fas fa-angle-double-left"></i>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a th:class="${'page-link ' + (currentPage == 0 ? 'disabled-page' : '')}"
+                       th:href="@{${currentPage} != 0 ? ('/users?pageSize=' + ${pageSize} + '&' + 'currentPage=' + ${currentPage - 1}) : '#'}">
+                        <i class="fas fa-angle-left"></i>
+                    </a>
+                </li>
+                <th:block th:each="index : ${#numbers.sequence(0, totalPage - 1)}">
+                    <li th:class="${'page-item ' + (index == currentPage ? 'active' : '')}">
+                        <a class="page-link"
+                           th:href="@{'/users?pageSize=' + ${pageSize} + '&' + 'currentPage=' + ${index}}"
+                           th:text="${index + 1}"></a>
+                    </li>
+                </th:block>
+                <li class="page-item">
+                    <a th:class="${'page-link ' + (currentPage == (totalPage - 1) ? 'disabled-page' : '')}"
+                       th:href="@{${currentPage} != (${totalPage} - 1) ? ('/users?pageSize=' + ${pageSize} + '&' + 'currentPage=' + ${currentPage + 1}) : '#'}">
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link"
+                       th:href="@{'/users?pageSize=' + ${pageSize} + '&' + 'currentPage=' + ${totalPage - 1}}">
+                        <i class="fas fa-angle-double-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+</div>
+
+</body>
+<div th:replace="~{fragments/embedded-js :: embedded-js}"></div>
+</html>

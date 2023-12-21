@@ -1,0 +1,39 @@
+<!-- Modal -->
+<div class="modal fade" id="file-upload-modal" tabindex="-1" role="dialog"
+     aria-hidden="true" th:fragment="file-upload-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">File</h5>
+                <button type="button" class="close close-modal" aria-label="Close">
+                    <span aria-hidden="true" data-dismiss="modal">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="file-form">
+                    <div class="form-group">
+                        <label for="type">Type<span class="text-danger">*</span></label>
+                        <select class="form-control" id="type" name="type">
+                            <option value="image/png">image/png</option>
+                            <option value="image/jpg">image/jpg</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="createdAt">Type<span class="text-danger">*</span></label>
+                        <input type="date" class="form-control" id="createdAt" name="createdAt">
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Image<span class="text-danger">*</span></label>
+                        <input type="file" id="image" class="form-control" hidden="hidden">
+                        <br>
+                        <img src="" id="img-show" width="100px"/>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close-modal" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="save-file-btn">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
