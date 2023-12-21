@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.persistence.criteria.Fetch;
 import java.time.LocalDateTime;
 
 @Data
@@ -36,7 +35,7 @@ public class Order {
     @Column(name = "handled_at")
     private LocalDateTime handledAt;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "product_id")
     private Product product;
 

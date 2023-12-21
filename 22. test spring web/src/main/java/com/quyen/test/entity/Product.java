@@ -32,6 +32,6 @@ public class Product {
     @Column
     private String image; //lưu tên ảnh
 
-    @OneToOne(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    private Order order;
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    private List<Order> order;
 }

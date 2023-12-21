@@ -1,6 +1,6 @@
 package com.quyen.test.controller;
 
-import com.quyen.test.model.response.ProductResponse;
+import com.quyen.test.model.response.ProductDetailResponse;
 import com.quyen.test.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -19,7 +19,7 @@ public class MenuController {
 
     @GetMapping("/home")
     public String home(Model model) {
-        List<ProductResponse> products = productService.getAll();
+        List<ProductDetailResponse> products = productService.getAll();
         model.addAttribute("products", products);
         return "index";
     }

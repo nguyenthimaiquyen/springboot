@@ -3,11 +3,15 @@ package com.quyen.test.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.quyen.test.entity.Appointment;
 import com.quyen.test.model.request.AppointmentRequest;
+import com.quyen.test.model.request.SearchAppointmentRequest;
+import com.quyen.test.model.response.AppointmentDetailResponse;
 import com.quyen.test.model.response.AppointmentResponse;
 import com.quyen.test.repository.AppointmentJpaRepository;
+import com.quyen.test.repository.AppointmentRepository;
 import com.quyen.test.statics.Status;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.mail.MessagingException;
 import java.time.LocalDateTime;
@@ -20,6 +24,7 @@ public class AppointmentService {
     private final ObjectMapper objectMapper;
     private final AppointmentJpaRepository appointmentJpaRepository;
     private final EmailService emailService;
+    private final AppointmentRepository appointmentRepository;
 
 
     public void save(AppointmentRequest request) {
@@ -29,10 +34,10 @@ public class AppointmentService {
         appointmentJpaRepository.save(appointment);
     }
 
-    public List<AppointmentResponse> getAll() {
+    public List<AppointmentDetailResponse> getAll() {
         List<Appointment> appointments = appointmentJpaRepository.findAll();
         return appointments.stream().map(
-                appointment -> AppointmentResponse.builder()
+                appointment -> AppointmentDetailResponse.builder()
                         .id(appointment.getId())
                         .name(appointment.getName())
                         .phone(appointment.getPhone())
@@ -83,4 +88,24 @@ public class AppointmentService {
     }
 
 
+    public AppointmentResponse searchAppointment(SearchAppointmentRequest request) {
+        List<AppointmentDetailResponse> data = appointmentRepository.searchAppointment(request);
+        Long totalElement = 0L;
+        if (!CollectionUtils.isEmpty(data)) {
+            totalElement = data.get(0).getTotalRecord();
+        }
+
+        double totalPageTemp = (double) totalElement / request.getPageSize();
+        if (totalPageTemp > totalElement / request.getPageSize()) {
+            totalPageTemp++;
+        }
+
+        return AppointmentResponse.builder()
+                .appointments(data)
+                .totalElement(totalElement)
+                .totalPage(Double.valueOf(totalPageTemp).intValue())
+                .currentPage(request.getCurrentPage())
+                .pageSize(request.getPageSize())
+                .build();
+    }
 }

@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.util.List;
 
 @Data
@@ -13,15 +12,10 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class ProductResponse {
-    private Long id;
-
-    private String name;
-
-    private Float price;
-
-    private String description;
-
-    private String image;
-
+    private List<ProductDetailResponse> products;
+    private Long totalElement;
+    private int totalPage;
+    private int currentPage;
+    private int pageSize;
 
 }

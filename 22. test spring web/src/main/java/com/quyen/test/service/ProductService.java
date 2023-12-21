@@ -4,10 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.quyen.test.entity.Product;
 import com.quyen.test.exception.ProductNotFoundException;
 import com.quyen.test.model.request.ProductRequest;
+import com.quyen.test.model.request.SearchProductRequest;
+import com.quyen.test.model.response.ProductDetailResponse;
 import com.quyen.test.model.response.ProductResponse;
 import com.quyen.test.repository.ProductJpaRepository;
+import com.quyen.test.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,12 +30,13 @@ import java.util.stream.Collectors;
 public class ProductService {
     private final ObjectMapper objectMapper;
     private final ProductJpaRepository productJpaRepository;
+    private final ProductRepository productRepository;
 
 
-    public List<ProductResponse> getAll() {
+    public List<ProductDetailResponse> getAll() {
         List<Product> products = productJpaRepository.findAll();
         return products.stream().map(
-                product -> ProductResponse.builder()
+                product -> ProductDetailResponse.builder()
                         .id(product.getId())
                         .name(product.getName())
                         .price(product.getPrice())
@@ -41,9 +46,9 @@ public class ProductService {
         ).collect(Collectors.toList());
     }
 
-    public ProductResponse getProductDetails(Long id) throws ProductNotFoundException {
+    public ProductDetailResponse getProductDetails(Long id) throws ProductNotFoundException {
         return productJpaRepository.findById(id).map(
-                product -> ProductResponse.builder()
+                product -> ProductDetailResponse.builder()
                         .id(product.getId())
                         .name(product.getName())
                         .price(product.getPrice())
@@ -87,4 +92,24 @@ public class ProductService {
     }
 
 
+    public ProductResponse searchProduct(SearchProductRequest request) {
+        List<ProductDetailResponse> data = productRepository.searchProduct(request);
+        Long totalElement = 0L;
+        if (!CollectionUtils.isEmpty(data)) {
+            totalElement = data.get(0).getTotalRecord();
+        }
+
+        double totalPageTemp = (double) totalElement / request.getPageSize();
+        if (totalPageTemp > totalElement / request.getPageSize()) {
+            totalPageTemp++;
+        }
+        return ProductResponse.builder()
+                .products(data)
+                .totalElement(totalElement)
+                .totalPage(Double.valueOf(totalPageTemp).intValue())
+                .currentPage(request.getCurrentPage())
+                .pageSize(request.getPageSize())
+                .build();
+
+    }
 }

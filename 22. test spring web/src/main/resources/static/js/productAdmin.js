@@ -156,7 +156,11 @@ $(document).ready(function () {
     });
 
 
-
+    //set url mới khi thẻ select thay đổi
+    $('#product-page-size').change(function (event) {
+        const pageSize = event.target.value;
+        window.location.href = ('/admin?pageSize=' + pageSize + '&currentPage=0');
+    });
 
 
 });

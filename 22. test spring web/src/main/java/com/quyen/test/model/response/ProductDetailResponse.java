@@ -5,17 +5,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AppointmentResponse {
-    private List<AppointmentDetailResponse> appointments;
-    private Long totalElement;
-    private int totalPage;
-    private int currentPage;
-    private int pageSize;
+public class ProductDetailResponse {
+    private Long id;
 
+    private String name;
+
+    private Float price;
+
+    private String description;
+
+    private String image;
+
+    private Long totalRecord;
 }

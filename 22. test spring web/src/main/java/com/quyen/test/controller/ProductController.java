@@ -3,6 +3,8 @@ package com.quyen.test.controller;
 import com.google.gson.Gson;
 import com.quyen.test.exception.ProductNotFoundException;
 import com.quyen.test.model.request.ProductRequest;
+import com.quyen.test.model.request.SearchProductRequest;
+import com.quyen.test.model.response.ProductDetailResponse;
 import com.quyen.test.model.response.ProductResponse;
 import com.quyen.test.service.ProductService;
 import lombok.AllArgsConstructor;
@@ -12,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 
 @Controller
 @AllArgsConstructor
@@ -22,15 +23,20 @@ public class ProductController {
     private final Gson gson;
 
     @GetMapping
-    public String getAllProduct(Model model) {
-        List<ProductResponse> products = productService.getAll();
-        model.addAttribute("products", products);
+    public String getProduct(Model model, SearchProductRequest request) {
+        ProductResponse productResponse = productService.searchProduct(request);
+        model.addAttribute("products", productResponse.getProducts());
+        model.addAttribute("requestSearch", request);
+        model.addAttribute("currentPage", productResponse.getCurrentPage());
+        model.addAttribute("totalPage", productResponse.getTotalPage());
+        model.addAttribute("totalElement", productResponse.getTotalElement());
+        model.addAttribute("pageSize", productResponse.getPageSize());
         return "product/products";
     }
 
     @GetMapping("/products/{id}")
     public ResponseEntity<?> getProductDetails(@PathVariable Long id) throws ProductNotFoundException {
-        ProductResponse product = productService.getProductDetails(id);
+        ProductDetailResponse product = productService.getProductDetails(id);
         return ResponseEntity.ok(product);
     }
 

@@ -66,5 +66,12 @@ $(document).ready(function () {
         });
     });
 
+    //set url mới khi thẻ select thay đổi
+    $('#appointment-page-size').change(function (event) {
+        const pageSize = event.target.value;
+        window.location.href = ('/admin/appointments?pageSize=' + pageSize + '&currentPage=0');
+    });
+
+
 
 });
