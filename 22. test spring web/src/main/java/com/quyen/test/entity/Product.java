@@ -20,7 +20,7 @@ public class Product {
     @Column
     private Long id;
 
-    @Column(length = 255)
+    @Column
     private String name;
 
     @Column
@@ -30,8 +30,8 @@ public class Product {
     private String description;
 
     @Column
-    @OneToMany(mappedBy = "product")
-    private List<Image> images;
+    private String image; //lưu tên ảnh
 
-
+    @OneToOne(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    private Order order;
 }

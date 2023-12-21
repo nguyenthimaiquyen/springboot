@@ -427,52 +427,16 @@
             </p>
         </div>
         <div class="food_container">
-            <div class="box">
+            <div class="box" th:each="product : ${products}">
                 <div class="img-box">
-                    <img src="images/f1.png" alt="">
+                    <img th:src="@{'/api/v1/files/' + ${product.image}}" alt="image">
                 </div>
                 <div class="detail-box">
-                    <h6>
-                        Basic
-                    </h6>
-                    <h3>
-                        <span>$</span>100
+                    <h6 th:text="${product.name}"></h6>
+                    <h3>$
+                        <span th:text="${product.price}"></span>
                     </h3>
-                    <a class="buy-product">
-                        Buy Now
-                    </a>
-                </div>
-            </div>
-            <div class="box">
-                <div class="img-box">
-                    <img src="images/f2.png" alt="">
-                </div>
-                <div class="detail-box">
-                    <h6>
-                        Medium
-                    </h6>
-                    <h3>
-                        <span>$</span>200
-                    </h3>
-                    <a href="">
-                        Buy Now
-                    </a>
-                </div>
-            </div>
-            <div class="box">
-                <div class="img-box">
-                    <img src="images/f3.png" alt="">
-                </div>
-                <div class="detail-box">
-                    <h6>
-                        Standard
-                    </h6>
-                    <h3>
-                        <span>$</span>300
-                    </h3>
-                    <a href="">
-                        Buy Now
-                    </a>
+                    <a href="" class="buy-product" th:attr="product-id=${product.id}">Buy Now</a>
                 </div>
             </div>
         </div>
@@ -714,7 +678,6 @@
     </p>
 </section>
 <!-- end  footer section -->
-
 
 
 <script>

@@ -1,19 +1,26 @@
 package com.quyen.test.controller;
 
+import com.quyen.test.model.response.ProductResponse;
+import com.quyen.test.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 
 @Controller
 @AllArgsConstructor
 @RequestMapping
 public class MenuController {
+    private final ProductService productService;
 
     @GetMapping("/home")
-    public String getAllPet() {
+    public String home(Model model) {
+        List<ProductResponse> products = productService.getAll();
+        model.addAttribute("products", products);
         return "index";
     }
 

@@ -21,7 +21,7 @@ public class ProductResponse {
 
     private String description;
 
-    private List<String> images;
+    private String image;
 
 
 }

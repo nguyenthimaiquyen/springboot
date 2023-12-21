@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
 @Service
 @AllArgsConstructor
 public class ProductService {
@@ -67,23 +68,20 @@ public class ProductService {
         productJpaRepository.save(product);
     }
 
-    public void create(ProductRequest request, List<MultipartFile> images) {
+    public void create(ProductRequest request, MultipartFile image) {
         //lưu ảnh
-        List<String> imageUrls = images.stream().map(img -> {
-            String filePath = "images" + File.separator + img.getOriginalFilename();
-            try {
-                Files.copy(img.getInputStream(), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return img.getOriginalFilename();
-        }).collect(Collectors.toList());
+        String filePath = "product_images" + File.separator + image.getOriginalFilename();
+        try {
+            Files.copy(image.getInputStream(), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Product product = Product.builder()
                 .name(request.getName())
                 .price(request.getPrice())
                 .description(request.getDescription())
-//                .images(imageUrls)
+                .image(image.getOriginalFilename())
                 .build();
         productJpaRepository.save(product);
     }

@@ -1,10 +1,15 @@
 $(document).ready(function () {
 
     toastr.options.timeOut = 2500; //2.5s
+    let orderedProductId = -1;
 
-    //bắt sự kiện người dùng click nút buy now
-    $('.buy-product').click(function () {
+    // bắt sự kiện người dùng click nút buy now
+    $('.buy-product').on("click", function (event) {
+        //lấy ra id của sản phẩm muốn order
+        console.log("vào hàm rồi")
+        orderedProductId = parseInt($(event.currentTarget).attr("product-id"));
         $('#buy-product-modal').modal('show');
+
     });
 
     $.validator.addMethod("vietnamesePhone", function (value, element) {
@@ -52,7 +57,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#save-buy-product-btn').click(function () {
+    $('#save-buy-product-btn').click(function (event) {
         //validate
         const isValidForm = $('#buy-product-form').valid();
         if (!isValidForm) {
@@ -64,14 +69,16 @@ $(document).ready(function () {
         if (!formData || formData.length === 0) {
             return;
         }
+
         //chuyển dữ liệu từ dạng object sang json
         const requestBody = {};
         for (let i = 0; i < formData.length; i++) {
             requestBody[formData[i].name] = formData[i].value;
         }
+
         //call api lên backend
         $.ajax({
-            url: "/orders",
+            url: "/orders/" + orderedProductId,
             type: "POST",
             data: JSON.stringify(requestBody), //dữ liệu được gửi vào trong body của HTTP
             contentType: "application/json; charset=utf-8",

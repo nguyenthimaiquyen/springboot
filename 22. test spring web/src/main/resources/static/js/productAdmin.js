@@ -2,6 +2,7 @@ $(document).ready(function () {
     toastr.options.timeOut = 2500; //2.5s
 
     let chosenFile = [];
+    const defaultImg = "/images/default.png";
 
     //validate
     const validatorAdminSide = $("#product-form").validate({
@@ -42,18 +43,27 @@ $(document).ready(function () {
         }
     });
 
+    $('#product-img-show').click(() => {
+        $('#product-image').click();
+    });
+
+    //open modal to create a product
+    $('.create-product-btn').click(function () {
+        $('#product-img-show').attr('src', defaultImg);
+        $('#product-modal #save-product-btn').attr("action-type", "CREATE");
+        $('#product-modal').modal('show');
+    });
+
     $('#product-image').change(function (event) {
         const tempFiles = event.target.files;
         if (!tempFiles || tempFiles.length === 0) {
             return;
         }
-        chosenFile = tempFiles;
-    });
+        chosenFile = tempFiles[0];
 
-    //open modal to create a product
-    $('.create-product-btn').click(function () {
-        $('#product-modal #save-product-btn').attr("action-type", "CREATE");
-        $('#product-modal').modal('show');
+        const imageBlob = new Blob([chosenFile], {type: chosenFile.type});
+        const imageUrl = URL.createObjectURL(imageBlob);
+        $('#product-img-show').attr("src", imageUrl);
     });
 
     //open modal to update a product
@@ -113,13 +123,13 @@ $(document).ready(function () {
             requestBody["id"] = productId;
         }
         const formData = new FormData();
-        formData.append("images", chosenFile);
-        formData.append("productRequest", requestBody);
+        formData.append("image", chosenFile, chosenFile.name);
+        formData.append("productRequest", JSON.stringify(requestBody));
         //call api lên backend
         $.ajax({
             url: "/admin/products",
             type: method,
-            // data: JSON.stringify(), //dữ liệu được gửi vào trong body của HTTP
+            data: formData, //dữ liệu được gửi vào trong body của HTTP
             contentType: false, //NEEDED, DON'T OMIT THIS
             processData: false, //NEEDED, DON'T OMIT THIS
             success: function (data) {

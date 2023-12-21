@@ -2,10 +2,8 @@ package com.quyen.test.controller;
 
 import com.google.gson.Gson;
 import com.quyen.test.exception.ProductNotFoundException;
-import com.quyen.test.model.request.OrderRequest;
 import com.quyen.test.model.request.ProductRequest;
 import com.quyen.test.model.response.ProductResponse;
-import com.quyen.test.service.OrderService;
 import com.quyen.test.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -38,9 +36,9 @@ public class ProductController {
 
     @PostMapping("/products")
     public ResponseEntity<?> create(@RequestPart("productRequest") String productRequest,
-                                    @RequestPart("images") List<MultipartFile> images) {
+                                    @RequestPart("image") MultipartFile image) {
         ProductRequest request = gson.fromJson(productRequest, ProductRequest.class);
-        productService.create(request, images);
+        productService.create(request, image);
         return ResponseEntity.ok(null);
     }
 

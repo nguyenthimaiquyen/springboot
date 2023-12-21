@@ -35,7 +35,9 @@
                     <td th:text="${product.name}"></td>
                     <td th:text="${product.price}"></td>
                     <td th:text="${product.description}"></td>
-                    <td th:text="${product.image}"></td>
+                    <td>
+                        <img th:src="@{'/api/v1/files/' + ${product.image}}" width="100px">
+                    </td>
                     <td>
                         <button class="btn btn-primary btn-sm update-product-btn" th:attr="product-id=${product.id}">
                             <i class="far fa-edit" aria-hidden="true"></i>
