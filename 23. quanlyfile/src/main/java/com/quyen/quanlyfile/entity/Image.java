@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.time.LocalDate;
 
 @Data
@@ -25,7 +26,7 @@ public class Image {
     private String type;
 
     @Column(name = "created_at")
-    private LocalDate createdAt;
+    private Date createdAt;
 
     @Column
     private String image; //lưu tên ảnh

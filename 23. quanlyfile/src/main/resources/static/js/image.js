@@ -2,6 +2,7 @@ $(document).ready(function () {
 
     toastr.options.timeOut = 2500; // 2.5s
 
+    let userId = -1;
     let deleteImageId = -1;
     let chosenFile = [];
     const defaultImg = "/images/default.png";
@@ -106,7 +107,7 @@ $(document).ready(function () {
         console.log(formData)
         //call api lên backend
         $.ajax({
-            url: "/api/v1/files",
+            url: "/api/v1/files/" + userId,
             type: "POST",
             data: formData, //dữ liệu được gửi vào trong body của HTTP
             contentType: false, //NEEDED, DON'T OMIT THIS
@@ -128,6 +129,22 @@ $(document).ready(function () {
         $('#file-form').trigger("reset");
         $('#file-form input').removeClass("error");
         validator.resetForm();
+    });
+
+    //lấy id của user từ URL hiện tại
+    const currentUrl = window.location.href;
+    const userIdMatch = currentUrl.match(/\/users\/(\d+)\/files/);
+    if (userIdMatch) {
+        userId = userIdMatch[1];
+        console.log("User ID: ", userId);
+    } else {
+        console.log("Path variable not found in the URL");
+    }
+
+    //set url mới khi thẻ select thay đổi
+    $('#image-page-size').change(function (event) {
+        const pageSize = event.target.value;
+        window.location.href = ('/users/' + userId + '/files?pageSize=' + pageSize + '&currentPage=0');
     });
 
 });

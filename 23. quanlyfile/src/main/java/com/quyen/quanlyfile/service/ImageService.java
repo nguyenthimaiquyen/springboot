@@ -1,6 +1,7 @@
 package com.quyen.quanlyfile.service;
 
 import com.quyen.quanlyfile.entity.Image;
+import com.quyen.quanlyfile.entity.User;
 import com.quyen.quanlyfile.model.request.ImageRequest;
 import com.quyen.quanlyfile.model.request.SearchImageRequest;
 import com.quyen.quanlyfile.model.request.SearchUserRequest;
@@ -10,6 +11,7 @@ import com.quyen.quanlyfile.model.response.UserDetailResponse;
 import com.quyen.quanlyfile.model.response.UserResponse;
 import com.quyen.quanlyfile.repository.ImageJpaRepository;
 import com.quyen.quanlyfile.repository.ImageRepository;
+import com.quyen.quanlyfile.repository.UserJpaRepository;
 import com.quyen.quanlyfile.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -29,6 +32,7 @@ public class ImageService {
 
     private final ImageRepository imageRepository;
     private final ImageJpaRepository imageJpaRepository;
+    private final UserJpaRepository userJpaRepository;
 
 
     public ImageResponse searchImage(SearchImageRequest request, Integer id) {
@@ -56,7 +60,7 @@ public class ImageService {
         imageJpaRepository.deleteById(id);
     }
 
-    public void create(ImageRequest request, MultipartFile image) {
+    public void create(ImageRequest request, MultipartFile image, Integer userId) {
         //lưu ảnh
         String filePath = "user_images" + File.separator + image.getOriginalFilename();
         try {
@@ -64,10 +68,12 @@ public class ImageService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        User user = userJpaRepository.findById(userId).get();
 
         Image newImage = Image.builder()
                 .type(request.getType())
                 .createdAt(request.getCreatedAt())
+                .user(user)
                 .build();
         imageJpaRepository.save(newImage);
     }

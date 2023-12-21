@@ -66,40 +66,41 @@
         <div class="col-8 d-flex justify-content-end align-items-center">
             <div class="mr-3">
                 <span>Hiển thị</span>
-                <select class="mr-1" id="page-size">
+                <select class="mr-1" id="image-page-size">
                     <option value="2" th:selected="${pageSize==2}">2</option>
                     <option value="3" th:selected="${pageSize==3}">3</option>
+                    <option value="5" th:selected="${pageSize==5}">5</option>
                 </select>
                 <span>bản ghi</span>
             </div>
             <ul class="pagination justify-content-end mb-0">
                 <li class="page-item">
-                    <a class="page-link" th:href="@{'/users?pageSize=' + ${pageSize} + '&' + 'currentPage=0'}">
+                    <a class="page-link" th:href="@{'/users/'+${userId}+'/files?pageSize='+${pageSize}+'&'+'currentPage=0'}">
                         <i class="fas fa-angle-double-left"></i>
                     </a>
                 </li>
                 <li class="page-item">
                     <a th:class="${'page-link ' + (currentPage == 0 ? 'disabled-page' : '')}"
-                       th:href="@{${currentPage} != 0 ? ('/users?pageSize=' + ${pageSize} + '&' + 'currentPage=' + ${currentPage - 1}) : '#'}">
+                       th:href="@{${currentPage} != 0 ? ('/users/'+${userId}+'/files?pageSize=' + ${pageSize} + '&' + 'currentPage=' + ${currentPage - 1}) : '#'}">
                         <i class="fas fa-angle-left"></i>
                     </a>
                 </li>
                 <th:block th:each="index : ${#numbers.sequence(0, totalPage - 1)}">
                     <li th:class="${'page-item ' + (index == currentPage ? 'active' : '')}">
                         <a class="page-link"
-                           th:href="@{'/users?pageSize=' + ${pageSize} + '&' + 'currentPage=' + ${index}}"
+                           th:href="@{'/users/'+${userId}+'/files?pageSize=' + ${pageSize} + '&' + 'currentPage=' + ${index}}"
                            th:text="${index + 1}"></a>
                     </li>
                 </th:block>
                 <li class="page-item">
                     <a th:class="${'page-link ' + (currentPage == (totalPage - 1) ? 'disabled-page' : '')}"
-                       th:href="@{${currentPage} != (${totalPage} - 1) ? ('/users?pageSize=' + ${pageSize} + '&' + 'currentPage=' + ${currentPage + 1}) : '#'}">
+                       th:href="@{${currentPage} != (${totalPage} - 1) ? ('/users/'+${userId}+'/files?pageSize=' + ${pageSize} + '&' + 'currentPage=' + ${currentPage + 1}) : '#'}">
                         <i class="fas fa-angle-right"></i>
                     </a>
                 </li>
                 <li class="page-item">
                     <a class="page-link"
-                       th:href="@{'/users?pageSize=' + ${pageSize} + '&' + 'currentPage=' + ${totalPage - 1}}">
+                       th:href="@{'/users/'+${userId}+'/files?pageSize=' + ${pageSize} + '&' + 'currentPage=' + ${totalPage - 1}}">
                         <i class="fas fa-angle-double-right"></i>
                     </a>
                 </li>

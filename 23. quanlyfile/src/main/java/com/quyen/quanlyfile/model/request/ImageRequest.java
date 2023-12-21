@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 @Data
@@ -14,6 +15,6 @@ import java.time.LocalDate;
 public class ImageRequest {
     private Integer id;
     private String type;
-    private LocalDate createdAt;
+    private Date createdAt;
 
 }

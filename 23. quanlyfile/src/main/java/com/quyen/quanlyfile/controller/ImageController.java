@@ -1,14 +1,11 @@
 package com.quyen.quanlyfile.controller;
 
 import com.google.gson.Gson;
-import com.quyen.quanlyfile.entity.User;
+import com.google.gson.GsonBuilder;
 import com.quyen.quanlyfile.model.request.ImageRequest;
 import com.quyen.quanlyfile.model.request.SearchImageRequest;
 import com.quyen.quanlyfile.model.response.ImageResponse;
-import com.quyen.quanlyfile.repository.ImageJpaRepository;
-import com.quyen.quanlyfile.repository.UserJpaRepository;
 import com.quyen.quanlyfile.service.ImageService;
-import com.quyen.quanlyfile.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 public class ImageController {
     private final ImageService imageService;
-    private final Gson gson;
 
     //1. render dữ liệu file
     @GetMapping("/users/{id}/files")
@@ -51,13 +47,12 @@ public class ImageController {
     }
 
     //4. upload file
-    @PostMapping("/api/v1/files")
+    @PostMapping("/api/v1/files/{userId}")
     public ResponseEntity<?> uploadFile(@RequestPart("fileRequest") String imageRequest,
-                                        @RequestPart("image") MultipartFile image) {
-        System.out.println(imageRequest);
+                                        @RequestPart("image") MultipartFile image, @PathVariable Integer userId) {
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
         ImageRequest request = gson.fromJson(imageRequest, ImageRequest.class);
-        System.out.println("chưa chuyển đổi thành công đâu nhé");
-        imageService.create(request, image);
+        imageService.create(request, image, userId);
         return ResponseEntity.ok(null);
     }
 }

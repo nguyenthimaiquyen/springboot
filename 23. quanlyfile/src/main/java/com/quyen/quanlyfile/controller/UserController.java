@@ -4,12 +4,9 @@ import com.quyen.quanlyfile.model.request.SearchUserRequest;
 import com.quyen.quanlyfile.model.response.UserResponse;
 import com.quyen.quanlyfile.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 
 @Controller
