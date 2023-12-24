@@ -34,14 +34,14 @@ public class ProductService {
 
 
     public List<ProductDetailResponse> getAll() {
-        List<Product> products = productJpaRepository.findAll();
-        return products.stream().map(
-                product -> ProductDetailResponse.builder()
-                        .id(product.getId())
-                        .name(product.getName())
-                        .price(product.getPrice())
-                        .description(product.getDescription())
-//                        .images(product.getImages())
+        List<Product> products = productRepository.getAll();
+        return products.stream().map(p ->
+                ProductDetailResponse.builder()
+                        .id(p.getId())
+                        .name(p.getName())
+                        .price(p.getPrice())
+                        .description(p.getDescription())
+                        .image(p.getImage())
                         .build()
         ).collect(Collectors.toList());
     }
@@ -53,9 +53,9 @@ public class ProductService {
                         .name(product.getName())
                         .price(product.getPrice())
                         .description(product.getDescription())
-//                        .images(product.getImages())
+                        .image(product.getImage())
                         .build()
-        ).orElseThrow( () -> new ProductNotFoundException("Product with id " + id + " could not be found"));
+        ).orElseThrow(() -> new ProductNotFoundException("Product with id " + id + " could not be found"));
     }
 
     public void save(ProductRequest request) {
@@ -66,7 +66,7 @@ public class ProductService {
             productNeedUpdate.setName(request.getName());
             productNeedUpdate.setPrice(request.getPrice());
             productNeedUpdate.setDescription(request.getDescription());
-//            productNeedUpdate.setImages(request.getImage());
+            productNeedUpdate.setImage(request.getImage());
             productJpaRepository.save(productNeedUpdate);
             return;
         }
@@ -88,7 +88,7 @@ public class ProductService {
                 .description(request.getDescription())
                 .image(image.getOriginalFilename())
                 .build();
-        productJpaRepository.save(product);
+        productRepository.save(product);
     }
 
 

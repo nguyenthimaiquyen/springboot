@@ -32,7 +32,7 @@ public class ProductRequest {
     private String description;
 
     @NotEmpty(message = "Image is required")
-    private List<String> image;
+    private String image;
 
 
 }
