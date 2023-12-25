@@ -23,12 +23,12 @@ public class FileController {
 
     @GetMapping("/{fileName}")
     public ResponseEntity<?> download(@PathVariable String fileName) throws IOException {
-        if (StringUtils.hasText(fileName)) {
+
+        if (!StringUtils.hasText(fileName)) {
             return ResponseEntity.badRequest().body("File name is empty");
         }
 
         File file = new File("product_images/" + fileName);
-
         HttpHeaders headers = new HttpHeaders();
         List<String> customHeaders = new ArrayList<>();
         customHeaders.add(HttpHeaders.CONTENT_DISPOSITION);
@@ -36,7 +36,6 @@ public class FileController {
         headers.setAccessControlExposeHeaders(customHeaders);
         headers.set("Content-disposition", "attachment;filename=" + file.getName());
         headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-
         byte[] imageData = Files.readAllBytes(file.toPath());
         if (ObjectUtils.isEmpty(imageData)) {
             return ResponseEntity.noContent().build();

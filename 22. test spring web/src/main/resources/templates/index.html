@@ -429,7 +429,7 @@
         <div class="food_container">
             <div class="box" th:each="product : ${products}">
                 <div class="img-box">
-                    <img th:src="@{'/api/v1/files/' + ${product.image}}" alt="image">
+                    <img th:src="@{'/api/v1/files/' + ${product.image}}" alt="image" width="100px">
                 </div>
                 <div class="detail-box">
                     <h6 th:text="${product.name}"></h6>

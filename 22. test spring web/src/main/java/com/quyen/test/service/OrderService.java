@@ -1,6 +1,5 @@
 package com.quyen.test.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.quyen.test.entity.Order;
 import com.quyen.test.entity.Product;
 import com.quyen.test.model.request.OrderRequest;
@@ -10,20 +9,21 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
-import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class OrderService {
-    private final ObjectMapper objectMapper;
     private final OrderJpaRepository orderJpaRepository;
     private final EmailService emailService;
     private final ProductJpaRepository productJpaRepository;
 
     public void saveOrder(OrderRequest request, Long id) {
-        Order order = objectMapper.convertValue(request, Order.class);
+        Order order = Order.builder()
+                .name(request.getName())
+                .phone(request.getPhone())
+                .email(request.getEmail())
+                .build();
         Product orderedProduct = productJpaRepository.findById(id).get();
         order.setCreatedAt(LocalDateTime.now());
         order.setProduct(orderedProduct);

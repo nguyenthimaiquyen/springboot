@@ -1,6 +1,5 @@
 package com.quyen.test.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.quyen.test.entity.Appointment;
 import com.quyen.test.model.request.AppointmentRequest;
 import com.quyen.test.model.request.SearchAppointmentRequest;
@@ -21,14 +20,18 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class AppointmentService {
-    private final ObjectMapper objectMapper;
     private final AppointmentJpaRepository appointmentJpaRepository;
     private final EmailService emailService;
     private final AppointmentRepository appointmentRepository;
 
 
     public void save(AppointmentRequest request) {
-        Appointment appointment = objectMapper.convertValue(request, Appointment.class);
+        Appointment appointment = Appointment.builder()
+                .name(request.getName())
+                .phone(request.getPhone())
+                .email(request.getEmail())
+                .content(request.getContent())
+                .build();
         appointment.setStatus(Status.PENDING);
         appointment.setCreatedAt(LocalDateTime.now());
         appointmentJpaRepository.save(appointment);

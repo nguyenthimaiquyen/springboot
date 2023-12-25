@@ -1,6 +1,5 @@
 package com.quyen.test.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.quyen.test.entity.Product;
 import com.quyen.test.exception.ProductNotFoundException;
 import com.quyen.test.model.request.ProductRequest;
@@ -28,13 +27,12 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class ProductService {
-    private final ObjectMapper objectMapper;
     private final ProductJpaRepository productJpaRepository;
     private final ProductRepository productRepository;
 
 
     public List<ProductDetailResponse> getAll() {
-        List<Product> products = productRepository.getAll();
+        List<Product> products = productJpaRepository.findAll();
         return products.stream().map(p ->
                 ProductDetailResponse.builder()
                         .id(p.getId())
@@ -59,7 +57,12 @@ public class ProductService {
     }
 
     public void save(ProductRequest request) {
-        Product product = objectMapper.convertValue(request, Product.class);
+        Product product = Product.builder()
+                .name(request.getName())
+                .price(request.getPrice())
+                .description(request.getDescription())
+                .image(request.getImage())
+                .build();
         if (!ObjectUtils.isEmpty(request.getId())) {
             Optional<Product> studentOptional = productJpaRepository.findById(request.getId());
             Product productNeedUpdate = studentOptional.get();
@@ -88,7 +91,7 @@ public class ProductService {
                 .description(request.getDescription())
                 .image(image.getOriginalFilename())
                 .build();
-        productRepository.save(product);
+        productJpaRepository.save(product);
     }
 
 
