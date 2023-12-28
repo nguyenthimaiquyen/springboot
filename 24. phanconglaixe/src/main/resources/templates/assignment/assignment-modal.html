@@ -1,0 +1,44 @@
+<!-- Modal -->
+<div class="modal fade" id="assignment-modal" tabindex="-1" role="dialog"
+     aria-hidden="true" th:fragment="assignment-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Assignment</h5>
+                <button type="button" class="close close-modal" aria-label="Close">
+                    <span aria-hidden="true" data-dismiss="modal">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="assignment-form">
+                    <div class="form-group">
+                        <label for="driverId">Driver<span class="text-danger">*</span></label>
+                        <select class="form-control" id="driverId" name="driverId">
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="busId">Bus<span class="text-danger">*</span></label>
+                        <select class="form-control" id="busId" name="busId">
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="driving">Driving<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="driving" placeholder="Enter driving"
+                               name="driving">
+                    </div>
+                    <div class="form-group">
+                        <label for="assignmentTime">Assignment Time<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="assignmentTime" placeholder="Enter assignmentTime"
+                               name="assignmentTime">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close-modal" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="save-assignment-btn">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

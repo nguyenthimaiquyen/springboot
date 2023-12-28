@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: html_head(pageTitle = 'Assignment Management')}"></head>
+<body>
+<div class="container-fluid mb-3">
+    <div th:replace="~{fragments/menu :: menu}"></div>
+    <div class="row my-3">
+        <div class="col text-center">
+            <h2>Quản lý danh sách phân công tài xế lái xe buýt</h2>
+        </div>
+    </div>
+
+    <div class="row my-5">
+        <div class="col">
+            <button class="btn btn-success create-assignment-btn">Create assignment</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Driver's name</th>
+                    <th>Bus ID</th>
+                    <th>Driving</th>
+                    <th>Assignment Time (month)</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="assign : ${assignments}">
+                    <td th:text="${assign.id}"></td>
+                    <td th:text="${assign.driver.name}"></td>
+                    <td th:text="${assign.bus.id}"></td>
+                    <td th:text="${assign.driving}"></td>
+                    <td th:text="${assign.assignmentTime}"></td>
+                    <td>
+                        <a class="btn btn-primary btn-sm update-assignment-btn"
+                           th:attr="assignment-id=${assignment.id}">
+                            <i class="far fa-edit" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div th:replace="~{assignment/assignment-modal :: assignment-modal}"></div>
+
+</body>
+<div th:replace="~{fragments/embedded-js :: embedded-js}"></div>
+</html>

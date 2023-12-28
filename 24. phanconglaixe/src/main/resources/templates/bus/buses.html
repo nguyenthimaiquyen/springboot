@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: html_head(pageTitle = 'Bus Management')}"></head>
+<body>
+<div class="container-fluid mb-3">
+    <div th:replace="~{fragments/menu :: menu}"></div>
+    <div class="row my-3">
+        <div class="col text-center">
+            <h2>Quản lý danh sách tuyến buýt</h2>
+        </div>
+    </div>
+
+    <div class="row my-5">
+        <div class="col">
+            <button class="btn btn-success create-bus-btn">Create bus route</button>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col">
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Distance</th>
+                    <th>Bus stop</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="bus : ${buses}">
+                    <td th:text="${bus.id}"></td>
+                    <td th:text="${bus.distance}"></td>
+                    <td th:text="${bus.busStop}"></td>
+                    <td>
+                        <a class="btn btn-primary btn-sm update-bus-btn" th:attr="bus-id=${bus.id}">
+                            <i class="far fa-edit" aria-hidden="true"></i>
+                        </a>
+                        <a class="btn btn-danger btn-sm delete-bus-btn" th:attr="bus-id=${bus.id}">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{bus/bus-modal :: bus-modal}"></div>
+<div th:replace="~{bus/bus-delete-modal :: bus-delete-modal}"></div>
+
+</body>
+<div th:replace="~{fragments/embedded-js :: embedded-js}"></div>
+</html>

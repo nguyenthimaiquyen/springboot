@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: html_head(pageTitle = 'Driver Management')}"></head>
+<body>
+<div class="container-fluid mb-3">
+    <div th:replace="~{fragments/menu :: menu}"></div>
+    <div class="row my-3">
+        <div class="col text-center">
+            <h2>Quản lý danh sách tài xế lái xe buýt</h2>
+        </div>
+    </div>
+
+    <div class="row my-5">
+        <div class="col">
+            <button class="btn btn-success create-driver-btn">Create driver</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Phone</th>
+                        <th>Level</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="driver : ${drivers}">
+                        <td th:text="${driver.id}"></td>
+                        <td th:text="${driver.name}"></td>
+                        <td th:text="${driver.address}"></td>
+                        <td th:text="${driver.phone}"></td>
+                        <td>
+                            <span class="badge badge-success mr-1" th:each="level: ${driver.level}">
+                                <span th:text="${level.name}"></span>
+                            </span>
+                        </td>
+                        <td>
+                            <a class="btn btn-primary btn-sm update-driver-btn" th:attr="driver-id=${driver.id}">
+                                <i class="far fa-edit" aria-hidden="true"></i>
+                            </a>
+                            <a class="btn btn-danger btn-sm delete-driver-btn" th:attr="driver-id=${driver.id}">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{driver/driver-modal :: driver-modal}"></div>
+<div th:replace="~{driver/driver-delete-modal :: driver-delete-modal}"></div>
+
+</body>
+<div th:replace="~{fragments/embedded-js :: embedded-js}"></div>
+</html>

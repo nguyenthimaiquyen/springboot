@@ -1,0 +1,32 @@
+<!-- Modal -->
+<div class="modal fade" id="bus-modal" tabindex="-1" role="dialog"
+     aria-hidden="true" th:fragment="bus-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Bus</h5>
+                <button type="button" class="close close-modal" aria-label="Close">
+                    <span aria-hidden="true" data-dismiss="modal">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="bus-form">
+                    <div class="form-group">
+                        <label for="distance">Distance<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="distance" placeholder="Enter distance"
+                               name="distance">
+                    </div>
+                    <div class="form-group">
+                        <label for="busStop">Bus Stop<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="busStop" placeholder="Enter busStop"
+                               name="busStop">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close-modal" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="save-bus-btn">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
