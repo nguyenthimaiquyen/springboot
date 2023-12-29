@@ -1,7 +1,5 @@
 package com.quyen.phanconglaixe.model.response;
 
-import com.quyen.phanconglaixe.entity.Bus;
-import com.quyen.phanconglaixe.entity.Driver;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +18,7 @@ public class AssignmentResponse {
 
     private Integer assignmentTime;
 
-    private Bus bus;
+    private BusResponse bus;
 
-    private Driver driver;
+    private DriverResponse driver;
 }

@@ -9,6 +9,8 @@ import com.quyen.phanconglaixe.exception.BusNotFoundException;
 import com.quyen.phanconglaixe.exception.DriverNotFoundException;
 import com.quyen.phanconglaixe.model.request.AssignmentRequest;
 import com.quyen.phanconglaixe.model.response.AssignmentResponse;
+import com.quyen.phanconglaixe.model.response.BusResponse;
+import com.quyen.phanconglaixe.model.response.DriverResponse;
 import com.quyen.phanconglaixe.repository.AssignmentRepository;
 import com.quyen.phanconglaixe.repository.BusRepository;
 import com.quyen.phanconglaixe.repository.DriverRepository;
@@ -20,6 +22,7 @@ import org.springframework.util.ObjectUtils;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,11 +36,23 @@ public class AssignmentService {
     public List<AssignmentResponse> getAll() {
         List<Assignment> assignments = assignmentRepository.findAll();
         if (!CollectionUtils.isEmpty(assignments)) {
-            return assignments.stream().map(
+           return assignments.stream().map(
                     assignment -> AssignmentResponse.builder()
                                     .id(assignment.getId())
-                                    .driver(assignment.getDriver())
-                                    .bus(assignment.getBus())
+                                    .driver(DriverResponse.builder()
+                                                    .id(assignment.getDriver().getId())
+                                                    .name(assignment.getDriver().getName())
+                                                    .phone(assignment.getDriver().getPhone())
+                                                    .address(assignment.getDriver().getAddress())
+                                                    .level(assignment.getDriver().getLevel())
+                                                    .build()
+                                    )
+                                    .bus(BusResponse.builder()
+                                                    .id(assignment.getBus().getId())
+                                                    .distance(assignment.getBus().getDistance())
+                                                    .busStop(assignment.getBus().getBusStop())
+                                                    .build()
+                                    )
                                     .driving(assignment.getDriving())
                                     .assignmentTime(assignment.getAssignmentTime())
                                     .build()
@@ -46,18 +61,28 @@ public class AssignmentService {
         return Collections.emptyList();
     }
 
-
     public AssignmentResponse getAssignmentDetails(Long id) throws AssignmentNotFoundException {
         System.out.println("vao day roi");
-        AssignmentResponse assignmentResponse = assignmentRepository.findById(id).map(
-                assignment -> AssignmentResponse.builder()
-                        .id(assignment.getId())
-                        .driver(assignment.getDriver())
-                        .bus(assignment.getBus())
-                        .driving(assignment.getDriving())
-                        .assignmentTime(assignment.getAssignmentTime())
-                        .build()
-        ).orElseThrow(() -> new AssignmentNotFoundException("Assignment with id " + id + " could not be found!"));
+        Assignment assignment = assignmentRepository.findById(id).get();
+
+        System.out.println(assignment);
+        AssignmentResponse assignmentResponse = AssignmentResponse.builder()
+                .id(assignment.getId())
+                .driver(DriverResponse.builder()
+                        .id(assignment.getDriver().getId())
+                        .name(assignment.getDriver().getName())
+                        .phone(assignment.getDriver().getPhone())
+                        .address(assignment.getDriver().getAddress())
+                        .level(assignment.getDriver().getLevel())
+                        .build())
+                .bus(BusResponse.builder()
+                        .id(assignment.getBus().getId())
+                        .distance(assignment.getBus().getDistance())
+                        .busStop(assignment.getBus().getBusStop())
+                        .build())
+                .driving(assignment.getDriving())
+                .assignmentTime(assignment.getAssignmentTime())
+                .build();
         System.out.println(assignmentResponse);
         return assignmentResponse;
     }
