@@ -34,7 +34,6 @@ public class BusController {
         return ResponseEntity.ok(bus);
     }
 
-
     @PostMapping
     public ResponseEntity<?> createBus(@RequestBody BusRequest request) {
         busService.saveBus(request);

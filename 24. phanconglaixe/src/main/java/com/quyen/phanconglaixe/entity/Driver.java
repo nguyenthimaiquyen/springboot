@@ -1,7 +1,5 @@
 package com.quyen.phanconglaixe.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.quyen.phanconglaixe.statics.Level;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,7 +34,7 @@ public class Driver {
     @Enumerated(EnumType.STRING)
     private Level level;
 
-    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "driver", cascade = CascadeType.MERGE)
     private List<Assignment> assignments;
 
 }

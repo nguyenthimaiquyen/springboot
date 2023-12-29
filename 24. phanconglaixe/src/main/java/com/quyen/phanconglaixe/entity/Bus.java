@@ -28,7 +28,7 @@ public class Bus {
     @Column
     private Integer busStop;
 
-    @OneToMany(mappedBy = "bus", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "bus", cascade = CascadeType.MERGE)
     private List<Assignment> assignments;
 
 

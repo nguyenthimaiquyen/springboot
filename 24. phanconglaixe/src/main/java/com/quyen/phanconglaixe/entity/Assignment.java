@@ -26,11 +26,11 @@ public class Assignment {
     @Column(name = "assignment_time")
     private Integer assignmentTime; //thời gian phân công (đơn vị tháng)
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "bus_id")
     private Bus bus;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "driver_id")
     private Driver driver;
 

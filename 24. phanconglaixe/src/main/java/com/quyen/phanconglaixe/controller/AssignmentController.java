@@ -45,9 +45,7 @@ public class AssignmentController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getAssignmentDetails(@PathVariable Long id) throws AssignmentNotFoundException {
-        System.out.println("vào hàm rồi");
         AssignmentResponse assignment = assignmentService.getAssignmentDetails(id);
-        System.out.println(assignment.toString());
         return ResponseEntity.ok(assignment);
     }
 

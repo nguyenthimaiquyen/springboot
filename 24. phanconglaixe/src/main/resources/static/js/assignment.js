@@ -95,7 +95,6 @@ $(document).ready(() => {
     //open modal to update a assignment
     $('.update-assignment-btn').click(async function (event) {
         //call api lên java và lấy dữ liệu
-        console.log("vào hàm rồi")
         const updateAssignmentId = parseInt($(event.currentTarget).attr("assignment-id"));
         let assignment = null;
         await $.ajax({
@@ -109,7 +108,6 @@ $(document).ready(() => {
                 toastr.warning("There have been errors, please try again!");
             }
         });
-        console.log(assignment)
 
         if (!assignment) {
             toastr.error("There have been errors, please try again!")
