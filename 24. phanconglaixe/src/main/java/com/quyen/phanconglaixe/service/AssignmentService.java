@@ -34,7 +34,13 @@ public class AssignmentService {
         List<Assignment> assignments = assignmentRepository.findAll();
         if (!CollectionUtils.isEmpty(assignments)) {
             return assignments.stream().map(
-                    assignment -> objectMapper.convertValue(assignment, AssignmentResponse.class)
+                    assignment -> AssignmentResponse.builder()
+                                    .id(assignment.getId())
+                                    .driver(assignment.getDriver())
+                                    .bus(assignment.getBus())
+                                    .driving(assignment.getDriving())
+                                    .assignmentTime(assignment.getAssignmentTime())
+                                    .build()
             ).collect(Collectors.toList());
         }
         return Collections.emptyList();
@@ -42,9 +48,18 @@ public class AssignmentService {
 
 
     public AssignmentResponse getAssignmentDetails(Long id) throws AssignmentNotFoundException {
-        return assignmentRepository.findById(id).map(
-            assignment -> objectMapper.convertValue(assignment, AssignmentResponse.class)
-        ).orElseThrow( () -> new AssignmentNotFoundException("Assignment with id " + id + " could not be found!"));
+        System.out.println("vao day roi");
+        AssignmentResponse assignmentResponse = assignmentRepository.findById(id).map(
+                assignment -> AssignmentResponse.builder()
+                        .id(assignment.getId())
+                        .driver(assignment.getDriver())
+                        .bus(assignment.getBus())
+                        .driving(assignment.getDriving())
+                        .assignmentTime(assignment.getAssignmentTime())
+                        .build()
+        ).orElseThrow(() -> new AssignmentNotFoundException("Assignment with id " + id + " could not be found!"));
+        System.out.println(assignmentResponse);
+        return assignmentResponse;
     }
 
     @Transactional

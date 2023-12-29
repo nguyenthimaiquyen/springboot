@@ -27,7 +27,11 @@ public class BusService {
         List<Bus> buses = busRepository.findAll();
         if (!CollectionUtils.isEmpty(buses)) {
             return buses.stream().map(
-                    bus ->  objectMapper.convertValue(bus, BusResponse.class)
+                    bus ->  BusResponse.builder()
+                            .id(bus.getId())
+                            .busStop(bus.getBusStop())
+                            .distance(bus.getDistance())
+                            .build()
             ).collect(Collectors.toList());
         }
         return Collections.emptyList();

@@ -29,7 +29,13 @@ public class DriverService {
         List<Driver> drivers = driverRepository.findAll();
         if (!CollectionUtils.isEmpty(drivers)) {
             return drivers.stream().map(
-                    driver -> objectMapper.convertValue(driver, DriverResponse.class)
+                    driver -> DriverResponse.builder()
+                                .id(driver.getId())
+                                .name(driver.getName())
+                                .phone(driver.getPhone())
+                                .address(driver.getAddress())
+                                .level(driver.getLevel())
+                                .build()
             ).collect(Collectors.toList());
         }
         return Collections.emptyList();

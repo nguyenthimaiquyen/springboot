@@ -28,12 +28,10 @@ public class Assignment {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "bus_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Bus bus;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "driver_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Driver driver;
 
 
